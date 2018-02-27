@@ -1,18 +1,39 @@
-<ion-header>
+<!--<ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header>-->
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+<ion-content padding> 
+  <ion-grid>
+    <ion-row nowrap>
+      <button ion-button col-4>call</button>
+      <span col-4 id="display"class="display">
+          <p text-center id="betTitle">bet</p>
+          <p id="primaryNumber">{{primaryNumber}}</p>
+      </span>
+      <button ion-button col-4>fold</button>
+    </ion-row>
+  </ion-grid>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ion-grid>
+    <ion-row nowrap>
+      <button ion-button col-4 color="light" round *ngFor="let n of row1" (click)="register(n)">{{n}}</button>
+    </ion-row> 
+    <ion-row nowrap>
+      <button ion-button col-4 color="light" round *ngFor="let n of row2" (click)="register(n)">{{n}}</button>
+    </ion-row>
+    <ion-row nowrap>
+      <button ion-button col-4 color="light" round *ngFor="let n of row3" (click)="register(n)">{{n}}</button>
+    </ion-row>
+    <ion-row nowrap>
+        <button *ngIf="ac" ion-button col-3  (click)="allClear()">AC</button>
+        <button *ngIf="!ac" ion-button col-3  (click)="clear()">C</button>
+        <button ion-button col-3 color="light" (click)="register('0')" >0</button>
+        <button ion-button col-3 color="light" (click)="addDecimal()" >.</button>
+        <button ion-button col-3 (click)="solve(true)">=</button>
+    </ion-row>
+  </ion-grid>
+
+  <p> HERE {{pot}}</p>
 </ion-content>

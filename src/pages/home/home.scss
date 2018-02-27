@@ -1,3 +1,42 @@
 page-home {
+    
+    .display{
+        height: 100px;
+        background-color: black;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+    #old-results{
+        height: 70px;
+    }
+    .button{
+        height: 5em !important;
+    }
+    #primaryNumber{
+        color: white;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        right: 10px;
+        bottom: 10px;
+        font-size: 40px !important;
+        margin: 0px;
+    }
 
+    #betTitle{
+        color: white;
+    }
+    
+    #secondaryNumber, #operation{
+        color: white;
+        display: inline-block;
+        font-size: 20px !important;
+        margin: 0px;
+    }
+    #secondLine{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
 }
