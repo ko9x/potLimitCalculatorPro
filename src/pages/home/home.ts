@@ -256,7 +256,7 @@ export class HomePage {
     let x = this.pot;
     let y = this.currentBet;
     let z = 0
-    z = (Number(y) * 2) + Number(this.pot);
+    z = (Number(y) * 2) + Number(x);
     this.potBetAmount = z.toString();
     this.potBetAlert();
   }
