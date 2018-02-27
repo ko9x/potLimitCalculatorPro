@@ -19,8 +19,6 @@ export class HomePage {
   currentBet: string = this.bigBlind;
   handStatus: string = "Pre-Flop";
   primaryNumber: string = "0";
-  secondaryNumber:string = null;
-  currentOperation:string = null;
   previousAnswer:number=0;
   ac : boolean;
   history:Array<string>
@@ -33,7 +31,6 @@ export class HomePage {
     this.row2 = ["4","5","6"];
     this.row3 = ["1","2","3"];
    
-    this.ac = false;
     this.history = [];
     this.previousAnswer = 0;
     this.error = false;
@@ -92,18 +89,11 @@ export class HomePage {
   }
 
   
-
   clear(){
     this.error = false;
     this.primaryNumber = "0";
-    this.secondaryNumber==null?null:this.ac = true;
   }
-  allClear(){
-    this.secondaryNumber = null;
-    this.currentOperation = null;
-    this.previousAnswer = 0;
-    this.ac = false;
-  }
+  
   addDecimal(){
     this.primaryNumber.indexOf(".") == -1? this.primaryNumber+=".":null;
   }
@@ -135,12 +125,6 @@ export class HomePage {
     this.potBetAlert();
   }
 
-  onError(){
-    this.primaryNumber = "ERROR";
-    this.error = true;
-    this.previousAnswer = 0;
-  }
-
   underBetAlert() {
     let alert = this.alertCtrl.create({
       title: 'Is somebody All in?',
@@ -157,5 +141,11 @@ export class HomePage {
       buttons: ['Dismiss']
     });
     alert.present();
+  }
+
+  onError(){
+    this.primaryNumber = "ERROR";
+    this.error = true;
+    this.previousAnswer = 0;
   }
 }

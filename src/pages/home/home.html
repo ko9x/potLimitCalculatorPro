@@ -35,8 +35,7 @@
       <button ion-button col-4 color="light" round *ngFor="let n of row3" (click)="register(n)">{{n}}</button>
     </ion-row>
     <ion-row nowrap>
-        <button *ngIf="ac" ion-button col-3  (click)="allClear()">AC</button>
-        <button *ngIf="!ac" ion-button col-3  (click)="clear()">C</button>
+        <button ion-button col-3  (click)="clear()">C</button>
         <button ion-button col-3 color="light" (click)="register('0')" >0</button>
         <button ion-button col-3 color="light" (click)="addDecimal()" >.</button>
         <button ion-button col-3 (click)="solve(true)">=</button>
