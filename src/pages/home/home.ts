@@ -11,7 +11,6 @@ export class HomePage {
   row1 : Array<string>;
   row2 : Array<string>;
   row3 : Array<string>;
-  panel : Array<Array<object>>;
   handStages : Array<string>;
   smallBlind: string = ".25";
   bigBlind: string = ".50";
@@ -33,132 +32,7 @@ export class HomePage {
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
     this.row3 = ["1","2","3"];
-    this.panel = [
-      [
-        {
-          text: "C",
-          color: "primary",
-          col3: true,
-          click: "clear()",
-        },
-        {
-          text: "+/-",
-          color: "primary",
-          width: "col-3",
-          click: "changeSign()",
-        },
-        {
-          text: "%",
-          color: "primary",
-          width: "col-3",
-          click: "percertange()",
-        },
-        {
-          text: "/",
-          color: "primary",
-          width: "col-2",
-          click: "operation('/')",
-        }
-      ],
-      [
-        {
-          text: "7",
-          color: "light",
-          width: "col-3",
-          click: "register(7)",
-        },
-        {
-          text: "8",
-          color: "light",
-          width: "col-3",
-          click: "register(8)",
-        },
-        {
-          text: "9",
-          color: "light",
-          width: "col-3",
-          click: "register(9)",
-        },
-        {
-          text: "x",
-          color: "primary",
-          width: "col-2",
-          click: "operation('*')",
-        }
-      ],
-      [
-        {
-          text: "4",
-          color: "light",
-          width: "col-3",
-          click: "register(4)",
-        },
-        {
-          text: "5",
-          color: "light",
-          width: "col-3",
-          click: "register(5)",
-        },
-        {
-          text: "6",
-          color: "light",
-          width: "col-3",
-          click: "register(6)",
-        },
-        {
-          text: "-",
-          color: "primary",
-          width: "col-2",
-          click: "operation('-')",
-        }
-      ],
-      [
-        {
-          text: "1",
-          color: "light",
-          width: "col-3",
-          click: "register(1)",
-        },
-        {
-          text: "2",
-          color: "light",
-          width: "col-3",
-          click: "register(2)",
-        },
-        {
-          text: "3",
-          color: "light",
-          width: "col-3",
-          click: "register(3)",
-        },
-        {
-          text: "+",
-          color: "primary",
-          width: "col-2",
-          click: "operation('+')",
-        }
-      ],
-      [
-        {
-          text: "0",
-          color: "light",
-          width: "col-6",
-          click: "register(0)",
-        },
-        {
-          text: ".",
-          color: "light",
-          width: "col-3",
-          click: "decimal()",
-        },
-        {
-          text: "=",
-          color: "primary",
-          width: "col-2",
-          click: "solve()",
-        }
-      ]
-    ];
+   
     this.ac = false;
     this.history = [];
     this.previousAnswer = 0;
