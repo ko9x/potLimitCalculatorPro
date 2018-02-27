@@ -5,14 +5,22 @@
 
 
 <ion-content padding> 
+
   <ion-grid>
     <ion-row nowrap>
-      <button ion-button col-4>call</button>
+      <button ion-button col-4>Players</button>
+      <button ion-button col-4 (click)="changeHandStatus()">{{handStatus}}</button>
+      <button ion-button col-4 (click)="newHand()">New Hand</button>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row nowrap>
+      <button ion-button col-4 (click)="call()">call</button>
       <span col-4 id="display"class="display">
           <p text-center id="betTitle">bet</p>
           <p id="primaryNumber">{{primaryNumber}}</p>
       </span>
-      <button ion-button col-4>fold</button>
+      <button ion-button col-4 (click)="potBet()">fold</button>
     </ion-row>
   </ion-grid>
 
@@ -35,5 +43,8 @@
     </ion-row>
   </ion-grid>
 
-  <p> HERE {{pot}}</p>
+  <p> POT {{pot}}</p>
+  <p>Current Bet {{currentBet}}</p>
+  <p>Pot Bet Amount {{potBetAmount}}</p>
+
 </ion-content>

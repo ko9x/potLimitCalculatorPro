@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -11,8 +12,14 @@ export class HomePage {
   row2 : Array<string>;
   row3 : Array<string>;
   panel : Array<Array<object>>;
+  handStages : Array<string>;
+  smallBlind: string = ".25";
+  bigBlind: string = ".50";
   pot: string = "0";
-  primaryNumber: string = "";
+  potBetAmount: string = "0";
+  currentBet: string = this.bigBlind;
+  handStatus: string = "Pre-Flop";
+  primaryNumber: string = "0";
   secondaryNumber:string = null;
   currentOperation:string = null;
   previousAnswer:number=0;
@@ -20,7 +27,8 @@ export class HomePage {
   history:Array<string>
   error:boolean;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
+    this.handStages = ["Pre-Flop", "Flop", "Turn", "River"];
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -164,7 +172,7 @@ export class HomePage {
       this.previousAnswer = 0;
       this.clear();
     }
-    if(this.primaryNumber===""){
+    if(this.primaryNumber==="0"){
       this.primaryNumber = n;
     }else{
       if(this.primaryNumber.length<=40){
@@ -172,14 +180,48 @@ export class HomePage {
       }
     }
   }
-  // changeSign(){
-  //   if(this.primaryNumber!=="0"){
-  //     this.primaryNumber[0] == "-" ? this.primaryNumber = this.primaryNumber.substring(1):this.primaryNumber = "-"+this.primaryNumber;    
-  //   }
-  // }
+
+  call() {
+    let x = this.currentBet;
+    let y = this.pot;
+    let z = 0
+    z = Number(x) + Number(y);
+      this.pot = z.toString();
+    
+
+  }
+
+  changeHandStatus() {
+    if(this.handStatus === "Pre-Flop") {
+      this.handStatus = "Flop";
+      this.currentBet = "0";
+      
+    }
+   else if(this.handStatus === "Flop") {
+      this.handStatus = "Turn";
+      this.currentBet = "0";
+      
+    }
+    else if (this.handStatus === "Turn") {
+      this.handStatus = "River";
+      this.currentBet = "0";
+      
+    }
+  }
+
+  newHand() {
+    this.pot = "0";
+    this.handStatus = "Pre-Flop";
+    this.currentBet = this.bigBlind;
+    this.primaryNumber = "0";
+    this.potBetAmount = "0";
+  }
+
+  
+
   clear(){
     this.error = false;
-    this.primaryNumber = "";
+    this.primaryNumber = "0";
     this.secondaryNumber==null?null:this.ac = true;
   }
   allClear(){
@@ -191,87 +233,55 @@ export class HomePage {
   addDecimal(){
     this.primaryNumber.indexOf(".") == -1? this.primaryNumber+=".":null;
   }
-  // setOperation(o:string){
-  //   if(this.primaryNumber!=="0"){
-  //     if(this.secondaryNumber!==null){
-  //       this.solve(false);
-  //       this.primaryNumber = "0";
-  //     }else{
-  //       this.secondaryNumber = this.primaryNumber;
-  //       this.primaryNumber = "0";
-  //     }
-  //     this.currentOperation = o;
-  //   }
-  // }
-  // percentage(){
-  //   this.primaryNumber!=="0" ? this.primaryNumber = (Number(this.primaryNumber)/100).toString():null;
-  //   this.previousAnswer = Number(this.primaryNumber);
-  // }
 
 
   solve() {
     var x = this.primaryNumber
     var y = this.pot
     var z = 0
-    if(x !== "") {
+    if(x != "") {
       z = (+x + +y);
-    }
+      if (Number(x) >= Number(this.currentBet)) {
+        this.currentBet = x;
+      } else {
+        this.underBetAlert();
+      }
+    } 
     this.pot = z.toString();
-    this.primaryNumber = "";
-
+    this.primaryNumber = "0";
+    // this.potBet();
   }
 
+  potBet() {
+    let x = this.pot;
+    let y = this.currentBet;
+    let z = 0
+    z = (Number(y) * 2) + Number(this.pot);
+    this.potBetAmount = z.toString();
+    this.potBetAlert();
+  }
 
-  // solve(flag:boolean){
-  //   if(this.secondaryNumber!==null){
-  //     let number1 = Number(this.primaryNumber);
-  //     let number2 = Number(this.secondaryNumber);
-  //     let result;
-  //     switch (this.currentOperation){
-  //       case "+":{
-  //         result = number1 + number2
-  //         break;
-  //       }
-  //       case "-":{
-  //         result = number2 - number1;
-  //         break;
-  //       }
-  //       case "x":{
-  //         result = number1 * number2;
-  //         break;
-  //       }
-  //       case "/":{
-  //         if(number1===0){
-  //           this.onError();
-  //         }else{
-  //           result = number2 / number1;
-  //         }
-  //         break;
-  //       }
-  //     }
-  //     if(!this.error){
-  //       result.toFixed(2);
-  //       if(result.toString().length > 10){
-  //         result = result.toExponential(3); 
-  //       }
-  //       this.secondaryNumber = null;
-  //       this.currentOperation = null;
-  //       this.previousAnswer = result;
-  //       console.log(this.previousAnswer);
-  //       flag ? this.primaryNumber = result.toString():this.secondaryNumber = result.toString();
-  //       console.log(this.primaryNumber)
-  //     }
-  //   }
-  // }
-
-
-
-  // setOld(n:string){
-  //   this.primaryNumber = n;
-  // }
   onError(){
     this.primaryNumber = "ERROR";
     this.error = true;
     this.previousAnswer = 0;
+  }
+
+  underBetAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Is somebody All in?',
+      subTitle: 'Calls that are smaller than the current bet must be entered manually.',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  potBetAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'The pot bet amount is currently',
+      subTitle: this.potBetAmount,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 }
