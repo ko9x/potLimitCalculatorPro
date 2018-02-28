@@ -9,6 +9,7 @@ page-home {
     }
     .bottomDisplay{  
         height: 70px;
+        margin: 2px;
         background-color: black;
         border-radius: 10px;
         position: relative;
@@ -22,19 +23,8 @@ page-home {
     }
 
     .topButtons{
-        height: 3em !important;
-    }
-    .tenButtons{
-        height: 3em !important;
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-        margin-left: 3px !important;
-    }
-    #firstTenButton{
-        height: 3em !important;
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-        margin-left: 8px !important;
+        height: 4.5em !important;
+        margin-top: 20px !important;
     }
     #potBetButton{
         margin-top: 0px !important;
@@ -53,8 +43,12 @@ page-home {
         margin: 0px;
     }
 
-    .displayText{
+    .bottomDisplayText{
         margin-top: -2px;
+        color: white;
+    }
+    #topDisplayText{
+        margin-top: 2px;
         color: white;
     }
     

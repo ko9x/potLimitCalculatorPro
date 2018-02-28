@@ -8,35 +8,20 @@
 
   <ion-grid>
     <ion-row nowrap>
-      <button ion-button col-4 class="topButtons">Players</button>
+      <button ion-button col-4 class="topButtons">Blinds</button>
       <button ion-button col-4 class="topButtons" (click)="changeHandStatus()">{{handStatus}}</button>
       <button ion-button col-4 class="topButtons" (click)="newHand()">New Hand</button>
     </ion-row>
   </ion-grid>
 
   <ion-grid>
-    <ion-row>
-      <button ion-button col-1 id="firstTenButton"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-      <button ion-button col-1 class="tenButtons"></button>
-    </ion-row>
-  </ion-grid>
-
-  <ion-grid>
     <ion-row nowrap>
-      <button ion-button col-4 (click)="call()">call</button>
+      <button ion-button col-4 (click)="call()">Call</button>
       <span col-4 id="betDisplay">
-          <p text-center class="displayText">bet</p>
+          <p text-center id="topDisplayText">bet</p>
           <p id="primaryNumber">{{primaryNumber}}</p>
       </span>
-      <button ion-button col-4 >fold</button>
+      <button ion-button col-4 (click)="potBet()" >Pot Bet</button>
     </ion-row>
   </ion-grid>
 
@@ -59,13 +44,13 @@
   </ion-grid>
   <ion-grid>
     <ion-row nowrap>
-      <span col-4 class="bottomDisplay">
-        <p text-center class="displayText">current bet</p>
+      <span col-6 class="bottomDisplay">
+        <p text-center class="bottomDisplayText">current bet</p>
         <p id="primaryNumber">{{currentBet}}</p>
       </span>
-      <button round ion-button col-4 id="potBetButton" (click)="potBet()">Pot Bet</button>
-      <span col-4 class="bottomDisplay">
-        <p text-center class="displayText">in the pot</p>
+      <!-- <button round ion-button col-4 id="potBetButton" >Pot Bet</button> -->
+      <span col-6 class="bottomDisplay">
+        <p text-center class="bottomDisplayText">in the pot</p>
         <p id="primaryNumber">{{pot}}</p>
       </span>
     </ion-row>
