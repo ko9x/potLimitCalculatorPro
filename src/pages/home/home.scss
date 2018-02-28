@@ -42,15 +42,20 @@ page-home {
         font-size: 40px !important;
         margin: 0px;
     }
+    #topDisplayText{
+        margin-top: 2px;
+        color: white;
+    }
 
     .bottomDisplayText{
         margin-top: -2px;
         color: white;
     }
-    #topDisplayText{
-        margin-top: 2px;
-        color: white;
+    #splitPotText{
+        color: grey;
+        margin-top: 30px;
     }
+    
     
     #secondaryNumber, #operation{
         color: white;

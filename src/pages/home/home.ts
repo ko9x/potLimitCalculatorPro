@@ -12,8 +12,8 @@ export class HomePage {
   row2 : Array<string>;
   row3 : Array<string>;
   handStages : Array<string>;
-  smallBlind: string = ".25";
-  bigBlind: string = ".50";
+  smallBlind: string = "";
+  bigBlind: string = "";
   pot: string = "0";
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
@@ -33,6 +33,7 @@ export class HomePage {
     this.history = [];
     this.previousAnswer = 0;
     this.error = false;
+    this.setBlinds();
   }
 
   register(n:string){
@@ -85,6 +86,7 @@ export class HomePage {
     this.currentBet = this.bigBlind;
     this.primaryNumber = "0";
     this.potBetAmount = "0";
+    this.blindsToPot();
   }
 
   
@@ -95,6 +97,14 @@ export class HomePage {
   
   addDecimal(){
     this.primaryNumber.indexOf(".") == -1? this.primaryNumber+=".":null;
+  }
+
+  blindsToPot() {
+    let x = this.smallBlind;
+    let y = this.bigBlind;
+    let z = 0
+    z = Number(x) + Number(y);
+    this.pot = z.toString();
   }
 
 
@@ -121,7 +131,7 @@ export class HomePage {
     let z = 0
     z = (Number(y) * 2) + Number(x);
     this.potBetAmount = z.toString();
-    this.potBetAlert();
+    this.potBetConfirm();
   }
 
   underBetAlert() {
@@ -133,14 +143,66 @@ export class HomePage {
     alert.present();
   }
 
-  potBetAlert() {
+  potBetConfirm() {
     let alert = this.alertCtrl.create({
-      title: 'The pot bet amount is currently',
-      subTitle: this.potBetAmount,
-      buttons: ['Dismiss']
+      title: "The pot bet amount is currently", 
+      message: this.potBetAmount,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Bet the Pot',
+          handler: () => {
+            let x = this.pot;
+            let y = this.potBetAmount;
+            let z = 0;
+            z = Number(y) + Number(x);
+            this.pot = z.toString();
+          }
+        }
+      ]
     });
     alert.present();
   }
+
+  setBlinds() {
+    let alert = this.alertCtrl.create({
+      title: 'Enter Blinds',
+      message: 'use decimal for blinds less than $1.00',
+      inputs: [
+        {
+          name: 'smallBlind',
+          placeholder: 'small blind',
+          type:"number"
+        
+        },
+        {
+          name: 'bigBlind',
+          placeholder: 'big blind',
+          type: 'number',
+          
+        }
+      ],
+      buttons: [
+        {
+          text: 'Confirm Blinds',
+          handler: data => {
+            this.smallBlind = data.smallBlind;
+            this.bigBlind = data.bigBlind;
+            this.blindsToPot();
+            this.currentBet = this.bigBlind;
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  
 
   onError(){
     this.primaryNumber = "ERROR";
