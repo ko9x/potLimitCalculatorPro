@@ -49,7 +49,7 @@
         <p id="primaryNumber">${{currentBet}}</p>
         <p text-center class="secondaryDisplayText">tap to change</p>
       </span>
-      <span col-6 class="bottomDisplay" (click)="isQualifyingLow()">
+      <span col-6 class="bottomDisplay" (click)="isQualifyingLow(smallBlind, pot)">
         <p text-center class="bottomDisplayText">in the pot</p>
         <p id="primaryNumber">${{pot}}</p>
         <p text-center class="secondaryDisplayText">tap to split</p>

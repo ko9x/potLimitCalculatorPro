@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
+import { SplitPage } from '../split/split';
 
 @Component({
   selector: 'page-home',
@@ -12,8 +12,8 @@ export class HomePage {
   row2 : Array<string>;
   row3 : Array<string>;
   handStages : Array<string>;
-  smallBlind: string = "0";
-  bigBlind: string = "0";
+  smallBlind: string = ".25";
+  bigBlind: string = ".50";
   pot: string = "0";
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
@@ -175,24 +175,24 @@ export class HomePage {
 
   setBlinds() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Enter Blinds',
       message: 'use decimal for blinds less than $1.00',
       inputs: [
         {
           name: 'smallBlind',
           placeholder: 'small blind',
-          type:"number"
+          type:"number",
         
         },
         {
           name: 'bigBlind',
           placeholder: 'big blind',
-          type: 'number',
-          
+          type: 'number'
         }
       ],
       buttons: [
-        {
+        { 
           text: 'Confirm Blinds',
           handler: data => {
             this.smallBlind = data.smallBlind;
@@ -200,9 +200,12 @@ export class HomePage {
             this.blindsToPot();
             this.currentBet = this.bigBlind;
             this.handStatus = "Pre-Flop"
+            
           }
+        
         }
       ]
+      
     });
     alert.present();
   }
@@ -237,7 +240,8 @@ export class HomePage {
     alert.present();
   }
 
-  isQualifyingLow() {
+  isQualifyingLow(smallBlind, pot) {
+    this.navCtrl.push(SplitPage, {smallBlind: smallBlind});
     let alert = this.alertCtrl.create({
       title: 'Is there a qualifying low?',
       buttons: [
