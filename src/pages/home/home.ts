@@ -12,8 +12,8 @@ export class HomePage {
   row2 : Array<string>;
   row3 : Array<string>;
   handStages : Array<string>;
-  smallBlind: string = "";
-  bigBlind: string = "";
+  smallBlind: string = "0";
+  bigBlind: string = "0";
   pot: string = "0";
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
@@ -163,6 +163,7 @@ export class HomePage {
             let z = 0;
             z = Number(y) + Number(x);
             this.pot = z.toString();
+            this.currentBet = y.toString();
           }
         }
       ]
@@ -196,6 +197,37 @@ export class HomePage {
             this.bigBlind = data.bigBlind;
             this.blindsToPot();
             this.currentBet = this.bigBlind;
+            this.handStatus = "Pre-Flop"
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  changeCurrentBet() {
+    let alert = this.alertCtrl.create({
+      title: 'Change Current Bet',
+      message: 'this amount will not be added to the pot',
+      inputs: [
+        {
+          name: 'newCurrentBet',
+          placeholder: 'enter amount',
+          type: 'number'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            this.currentBet = data.newCurrentBet
           }
         }
       ]

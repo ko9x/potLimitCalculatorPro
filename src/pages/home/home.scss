@@ -1,4 +1,16 @@
 page-home {
+
+    ion-icon {
+        font-size: 35px;
+    }
+
+    #cancel {
+        background-color: #ff6666;
+    }
+
+    #add {
+        background-color: #33825e;
+    }
     
     #betDisplay{
         height: 90px;
@@ -51,7 +63,7 @@ page-home {
         margin-top: -2px;
         color: white;
     }
-    #splitPotText{
+    .secondaryDisplayText{
         color: grey;
         margin-top: 30px;
     }
