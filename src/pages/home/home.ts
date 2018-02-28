@@ -20,7 +20,6 @@ export class HomePage {
   handStatus: string = "Pre-Flop";
   primaryNumber: string = "0";
   previousAnswer:number=0;
-  ac : boolean;
   history:Array<string>
   error:boolean;
 

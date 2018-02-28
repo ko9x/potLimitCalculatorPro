@@ -8,19 +8,35 @@
 
   <ion-grid>
     <ion-row nowrap>
-      <button ion-button col-4>Players</button>
-      <button ion-button col-4 (click)="changeHandStatus()">{{handStatus}}</button>
-      <button ion-button col-4 (click)="newHand()">New Hand</button>
+      <button ion-button col-4 class="topButtons">Players</button>
+      <button ion-button col-4 class="topButtons" (click)="changeHandStatus()">{{handStatus}}</button>
+      <button ion-button col-4 class="topButtons" (click)="newHand()">New Hand</button>
     </ion-row>
   </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <button ion-button col-1 id="firstTenButton"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+      <button ion-button col-1 class="tenButtons"></button>
+    </ion-row>
+  </ion-grid>
+
   <ion-grid>
     <ion-row nowrap>
       <button ion-button col-4 (click)="call()">call</button>
-      <span col-4 id="display"class="display">
-          <p text-center id="betTitle">bet</p>
+      <span col-4 id="betDisplay">
+          <p text-center class="displayText">bet</p>
           <p id="primaryNumber">{{primaryNumber}}</p>
       </span>
-      <button ion-button col-4 (click)="potBet()">fold</button>
+      <button ion-button col-4 >fold</button>
     </ion-row>
   </ion-grid>
 
@@ -35,15 +51,23 @@
       <button ion-button col-4 color="light" round *ngFor="let n of row3" (click)="register(n)">{{n}}</button>
     </ion-row>
     <ion-row nowrap>
-        <button ion-button col-3  (click)="clear()">C</button>
-        <button ion-button col-3 color="light" (click)="register('0')" >0</button>
-        <button ion-button col-3 color="light" (click)="addDecimal()" >.</button>
-        <button ion-button col-3 (click)="solve(true)">=</button>
+        <button ion-button col-3 class="zeroRow" (click)="clear()">C</button>
+        <button ion-button col-3 class="zeroRow" color="light" (click)="register('0')" >0</button>
+        <button ion-button col-3 class="zeroRow" color="light" (click)="addDecimal()" >.</button>
+        <button ion-button col-3 class="zeroRow" (click)="solve(true)">=</button>
     </ion-row>
   </ion-grid>
-
-  <p> POT {{pot}}</p>
-  <p>Current Bet {{currentBet}}</p>
-  <p>Pot Bet Amount {{potBetAmount}}</p>
-
+  <ion-grid>
+    <ion-row nowrap>
+      <span col-4 class="bottomDisplay">
+        <p text-center class="displayText">current bet</p>
+        <p id="primaryNumber">{{currentBet}}</p>
+      </span>
+      <button round ion-button col-4 id="potBetButton" (click)="potBet()">Pot Bet</button>
+      <span col-4 class="bottomDisplay">
+        <p text-center class="displayText">in the pot</p>
+        <p id="primaryNumber">{{pot}}</p>
+      </span>
+    </ion-row>
+  </ion-grid>
 </ion-content>

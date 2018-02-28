@@ -1,7 +1,14 @@
 page-home {
     
-    .display{
-        height: 100px;
+    #betDisplay{
+        height: 90px;
+        background-color: black;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+    .bottomDisplay{  
+        height: 70px;
         background-color: black;
         border-radius: 10px;
         position: relative;
@@ -11,9 +18,31 @@ page-home {
         height: 70px;
     }
     .button{
-        height: 5em !important;
+        height: 4.8em !important;
     }
-    #primaryNumber{
+
+    .topButtons{
+        height: 3em !important;
+    }
+    .tenButtons{
+        height: 3em !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        margin-left: 3px !important;
+    }
+    #firstTenButton{
+        height: 3em !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        margin-left: 8px !important;
+    }
+    #potBetButton{
+        margin-top: 0px !important;
+    }
+    .zeroRow{
+        margin-bottom: 0px !important;
+    }
+    #primaryNumber{ 
         color: white;
         position: absolute;
         right: 10px;
@@ -24,7 +53,8 @@ page-home {
         margin: 0px;
     }
 
-    #betTitle{
+    .displayText{
+        margin-top: -2px;
         color: white;
     }
     
