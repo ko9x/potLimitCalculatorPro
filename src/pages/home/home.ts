@@ -59,7 +59,7 @@ export class HomePage {
     let y = this.pot;
     let z = 0
     z = Number(x) + Number(y);
-      this.pot = z.toString();
+      this.pot = z.toString(); 
     
 
   }
