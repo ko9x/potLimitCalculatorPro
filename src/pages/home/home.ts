@@ -19,6 +19,8 @@ export class HomePage {
   currentBet: string = this.bigBlind;
   handStatus: string = "Pre-Flop";
   primaryNumber: string = "0";
+  highPot: string = "0";
+  lowPot: string = "0";
   previousAnswer:number=0;
   history:Array<string>
   error:boolean;
@@ -117,7 +119,7 @@ export class HomePage {
       if (Number(x) >= Number(this.currentBet)) {
         this.currentBet = x;
       } else {
-        this.underBetAlert();
+        // this.underBetAlert();
       }
     } 
     this.pot = z.toString();
@@ -233,6 +235,65 @@ export class HomePage {
       ]
     });
     alert.present();
+  }
+
+  isQualifyingLow() {
+    let alert = this.alertCtrl.create({
+      title: 'Is there a qualifying low?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.highLowSplit();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  highLowSplit() {
+    var denomination = Number(this.smallBlind);
+    var players = 2;
+    var potTotal = Number(this.pot);
+
+    // Add the players to an object
+    var playerPortions = {};
+    for( var i = 1; i <= players; i++ ){
+        var playerName = 'player ' + i;
+        playerPortions[playerName] = 0;
+    }
+
+    // While there is enough money for everyone to have an even share,
+    // pay each player from the potTotal
+    while( potTotal >= ( denomination * players ) ){
+        for( var i = 1; i <= players; i++ ){
+            var playerName = 'player ' + i;
+            playerPortions[playerName] += denomination;
+            potTotal -= denomination;
+        }
+    }
+
+    this.highPot = ( playerPortions[playerName] ) + potTotal / denomination;
+    this.lowPot = ( playerPortions[playerName] )
+    
+    console.log('remaining pot: ' + potTotal );
+    console.log('remaining pot: ' + potTotal / denomination + "  Chips remaining");
+    console.log('high pot', this.highPot); //@DEBUG
+    console.log('low pot', this.lowPot); //@DEBUG
   }
   
 
