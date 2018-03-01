@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ParentComponent } from '../../parent-classes/parent-component';
-import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-split',
@@ -35,19 +34,27 @@ export class SplitPage extends ParentComponent {
     // Add the players to an object
     var playerPortions = {};
     for( var i = 1; i <= players; i++ ){
-        var playerName = 'player ' + i;
-        playerPortions[playerName] = 0;
+        var playerName1 = 'player ' + i;
+        playerPortions[playerName1] = 0;
     }
 
     // While there is enough money for everyone to have an even share,
     // pay each player from the potTotal
     while( potTotal >= ( denomination * players ) ){
-        for( var i = 1; i <= players; i++ ){
-            var playerName = 'player ' + i;
+        for( var a = 1; a <= players; a++ ){
+            var playerName = 'player ' + a;
             playerPortions[playerName] += denomination;
             potTotal -= denomination;
         }
     }
+
+  //   while( potTotal >= ( denomination * players ) ){
+  //     for( var i = 1; i <= players; i++ ){
+  //         var playerName = 'player ' + i;
+  //         playerPortions[playerName] += denomination;
+  //         potTotal -= denomination;
+  //     }
+  // }
  
     this.extraAmount = potTotal.toString();
     this.splitAmount = ( playerPortions[playerName] );

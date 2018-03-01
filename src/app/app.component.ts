@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { SplitPage } from '../pages/split/split';
-import { HLSplitPage } from '../pages/hl-split/hl-split';
 
 @Component({
   templateUrl: 'app.html'

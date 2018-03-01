@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ParentComponent } from '../../parent-classes/parent-component';
-import { HomePage } from '../home/home';
 import { SplitPage } from '../split/split';
 
 @Component({
@@ -31,9 +30,9 @@ export class HLSplitPage extends ParentComponent {
 
     // Add the players to an object
     var playerPortions = {};
-    for( var i = 1; i <= players; i++ ){
-        var playerName = 'player ' + i;
-        playerPortions[playerName] = 0;
+    for( var a = 1; a <= players; a++ ){
+        var playerName1 = 'player ' + a;
+        playerPortions[playerName1] = 0;
     }
 
     // While there is enough money for everyone to have an even share,
