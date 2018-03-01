@@ -3,21 +3,24 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Splits</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="toHome()"><ion-icon name="home"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+  <ion-card>
+    <ion-card-header text-center class="headerText">
+      Split Pot {{splitFactor}} Ways
+    </ion-card-header>
+    <ion-card-content text-center class="contentText">
+      Each Player Gets ${{splitAmount}} 
+      <span *ngIf="extraChips == 1">There is ({{extraChips}}) ${{smallBlind}} chip remaining</span>
+      <span *ngIf="extraChips > 1">There are ({{extraChips}}) ${{smallBlind}} chips remaining</span>
+      <p *ngIf="extraChips == 1" class="secondaryContent">generally the player closest to the button gets the extra chip</p>
+      <p *ngIf="extraChips > 1" class="secondaryContent">generally the players closest to the button get the extra chips</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

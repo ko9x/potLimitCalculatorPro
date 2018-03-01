@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { SplitPage } from '../split/split';
+import { HLSplitPage } from '../hl-split/hl-split';
 
 @Component({
   selector: 'page-home',
@@ -21,6 +22,7 @@ export class HomePage {
   primaryNumber: string = "0";
   highPot: string = "0";
   lowPot: string = "0";
+  splitFactor: string = "0"
   previousAnswer:number=0;
   history:Array<string>
   error:boolean;
@@ -35,7 +37,7 @@ export class HomePage {
     this.history = [];
     this.previousAnswer = 0;
     this.error = false;
-    this.setBlinds();
+    this.newHand();
   }
 
   register(n:string){
@@ -107,6 +109,33 @@ export class HomePage {
     let z = 0
     z = Number(x) + Number(y);
     this.pot = z.toString();
+  }
+
+  isQualifyingLow(smallBlind, pot) {
+    let alert = this.alertCtrl.create({
+      title: 'Is there a qualifying low?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.navCtrl.push(HLSplitPage, {smallBlind: smallBlind, pot: pot});
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.regularSplit();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 
@@ -240,66 +269,35 @@ export class HomePage {
     alert.present();
   }
 
-  isQualifyingLow(smallBlind, pot) {
-    this.navCtrl.push(SplitPage, {smallBlind: smallBlind});
+  regularSplit() {
     let alert = this.alertCtrl.create({
-      title: 'Is there a qualifying low?',
+      title: 'How Many Players Are Splitting The Pot?',
+      inputs: [
+        {
+          name: 'splitFactor',
+          placeholder: 'amount of players',
+          type: 'number'
+        }
+      ],
       buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-            this.highLowSplit();
-          }
-        },
-        {
-          text: 'No',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        },
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: () => {
+          handler: data => {
             console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            this.splitFactor = data.splitFactor;
+            this.navCtrl.push(SplitPage, {smallBlind: this.smallBlind, pot: this.pot, splitFactor: this.splitFactor})
           }
         }
       ]
     });
     alert.present();
   }
-
-  highLowSplit() {
-    var denomination = Number(this.smallBlind);
-    var players = 2;
-    var potTotal = Number(this.pot);
-
-    // Add the players to an object
-    var playerPortions = {};
-    for( var i = 1; i <= players; i++ ){
-        var playerName = 'player ' + i;
-        playerPortions[playerName] = 0;
-    }
-
-    // While there is enough money for everyone to have an even share,
-    // pay each player from the potTotal
-    while( potTotal >= ( denomination * players ) ){
-        for( var i = 1; i <= players; i++ ){
-            var playerName = 'player ' + i;
-            playerPortions[playerName] += denomination;
-            potTotal -= denomination;
-        }
-    }
-
-    this.highPot = ( playerPortions[playerName] ) + potTotal / denomination;
-    this.lowPot = ( playerPortions[playerName] )
-    
-    console.log('remaining pot: ' + potTotal );
-    console.log('remaining pot: ' + potTotal / denomination + "  Chips remaining");
-    console.log('high pot', this.highPot); //@DEBUG
-    console.log('low pot', this.lowPot); //@DEBUG
-  }
-  
 
   onError(){
     this.primaryNumber = "ERROR";
