@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>High Low Splits</ion-title>
+      <ion-buttons end>
+          <button ion-button (click)="toHome()"><ion-icon name="home"></ion-icon></button>
+        </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-card (click)="highSplit(smallBlind, pot)">
+      <ion-card-header text-center class="headerText">
+        High Pot
+      </ion-card-header>
+      <ion-card-content text-center class="contentText">
+        The High Pot amount is ${{highPot}}
+        <p class="secondaryContent">tap to split the high pot</p>
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-card (click)="lowSplit(smallBlind, pot)">
+        <ion-card-header text-center class="headerText">
+          Low Pot
+        </ion-card-header>
+        <ion-card-content text-center class="contentText">
+          The Low Pot amount is ${{lowPot}}
+          <p class="secondaryContent">tap to split the low pot</p>
+        </ion-card-content>
+      </ion-card>
+  </ion-content>
+  
