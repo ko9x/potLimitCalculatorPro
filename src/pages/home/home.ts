@@ -148,7 +148,7 @@ export class HomePage {
   }
 
   fold() {
-    
+    this.nextAction();
   }
 
   nextAction() {
@@ -156,9 +156,7 @@ export class HomePage {
     var n = Number(i)
     var n1 = n += 1
 
-    var str1 = "Notion,Data,Identity,";
-    var str2 = this.currentAction.slice(0, -1) + n1.toString();
-    console.log(str2);
+    this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
   }
 
   nextDealer() {
