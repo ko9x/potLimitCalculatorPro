@@ -117,7 +117,8 @@ export class HomePage {
       inputs: [
         {
           name: 'playerName',
-          placeholder: 'enter name'
+          placeholder: 'enter name',
+          type: "text"
         }
       ],
       buttons: [
