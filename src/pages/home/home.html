@@ -3,57 +3,94 @@
   </ion-navbar>
 </ion-header>-->
 
+<ion-split-pane>
+  <ion-content class="playerTracker">
+    <ion-grid class="trackerGrid">
+      <ion-row>
+        <button ion-button text-wrap col-12 id="trackerTopButton">ralphie $1000.75</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">erik</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">sean</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">felicia</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">vera</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">victor</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">robert</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">smithy $1000.25</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">Billy</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button text-wrap col-12 class="trackerButtons">Billy</button>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
 
-<ion-content padding> 
 
-  <ion-grid>
-    <ion-row nowrap>
-      <button ion-button col-4 class="topButtons" (click)="setBlinds()">Blinds</button>
-      <button ion-button col-4 class="topButtons" (click)="changeHandStatus()">{{handStatus}}</button>
-      <button ion-button col-4 class="topButtons" (click)="newHand()">New Hand</button>
-    </ion-row>
-  </ion-grid>
+  <ion-content class="mainContent" padding-top padding-right padding-bottom main > 
 
-  <ion-grid>
-    <ion-row nowrap>
-      <button ion-button col-4 (click)="call()">Call</button>
-      <span col-4 id="betDisplay">
-          <p text-center id="topDisplayText">bet</p>
-          <p id="primaryNumber">{{primaryNumber}}</p>
-      </span>
-      <button ion-button col-4 (click)="potBet()" >Pot Bet</button>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+      <ion-row nowrap>
+        <button ion-button col-3 class="topButtons" (click)="setBlinds()">Blinds</button>
+        <span col-6 id="betDisplay">
+            <p text-center id="topDisplayText">bet</p>
+            <p id="primaryNumber">{{primaryNumber}}</p>
+        </span>
+        <button ion-button col-3 class="topButtons" (click)="newHand()" text-wrap>New Hand</button>
+      </ion-row>
+    </ion-grid>
 
-  <ion-grid>
-    <ion-row nowrap>
-      <button ion-button col-4 color="light" round *ngFor="let n of row1" (click)="register(n)">{{n}}</button>
-    </ion-row> 
-    <ion-row nowrap>
-      <button ion-button col-4 color="light" round *ngFor="let n of row2" (click)="register(n)">{{n}}</button>
-    </ion-row>
-    <ion-row nowrap>
-      <button ion-button col-4 color="light" round *ngFor="let n of row3" (click)="register(n)">{{n}}</button>
-    </ion-row>
-    <ion-row nowrap>
-        <button ion-button col-3 class="zeroRow" id="cancel" (click)="clear()"><ion-icon name="close"></ion-icon></button>
-        <button ion-button col-3 class="zeroRow" color="light" (click)="register('0')" >0</button>
-        <button ion-button col-3 class="zeroRow" color="light" (click)="addDecimal()" >.</button>
-        <button ion-button col-3 class="zeroRow" id="add" (click)="solve(true)"><ion-icon name="add"></ion-icon></button>
-    </ion-row>
-  </ion-grid>
-  <ion-grid>
-    <ion-row nowrap>
-      <span col-6 class="bottomDisplay" (click)="changeCurrentBet()">
-        <p text-center class="bottomDisplayText">current bet</p>
-        <p id="primaryNumber">${{currentBet}}</p>
-        <p text-center class="secondaryDisplayText">tap to change</p>
-      </span>
-      <span col-6 class="bottomDisplay" (click)="isQualifyingLow(smallBlind, pot)">
-        <p text-center class="bottomDisplayText">in the pot</p>
-        <p id="primaryNumber">${{pot}}</p>
-        <p text-center class="secondaryDisplayText">tap to split</p>
-      </span>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+    <ion-grid>
+      <ion-row nowrap class="callRow">
+        <button ion-button col-4 class="middleButtons" (click)="call()">Call</button>
+        <button ion-button col-4 class="middleButtons" (click)="call()">Call</button>
+        <button ion-button col-4 class="middleButtons" (click)="potBet()" >Pot Bet</button>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row nowrap>
+        <button ion-button col-4 class="middleButtons" color="light" round *ngFor="let n of row1" (click)="register(n)">{{n}}</button>
+      </ion-row> 
+      <ion-row nowrap>
+        <button ion-button col-4 class="middleButtons" color="light" round *ngFor="let n of row2" (click)="register(n)">{{n}}</button>
+      </ion-row>
+      <ion-row nowrap>
+        <button ion-button col-4 class="middleButtons" color="light" round *ngFor="let n of row3" (click)="register(n)">{{n}}</button>
+      </ion-row>
+      <ion-row nowrap class="zeroRow">
+          <button ion-button col-3 class="zeroRowButtons" id="cancel" (click)="clear()"><ion-icon name="close"></ion-icon></button>
+          <button ion-button col-3 class="zeroRowButtons" color="light" (click)="register('0')" >0</button>
+          <button ion-button col-3 class="zeroRowButtons" color="light" (click)="addDecimal()" >.</button>
+          <button ion-button col-3 class="zeroRowButtons" id="add" (click)="solve(true)"><ion-icon name="add"></ion-icon></button>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row nowrap>
+        <span col-6 class="bottomDisplay" (click)="changeCurrentBet()">
+          <p text-center class="bottomDisplayText">current bet</p>
+          <p id="primaryNumber">${{currentBet}}</p>
+          <p text-center class="secondaryDisplayText">tap to change</p>
+        </span>
+        <span col-6 class="bottomDisplay" (click)="isQualifyingLow(smallBlind, pot)">
+          <p text-center class="bottomDisplayText">in the pot</p>
+          <p id="primaryNumber">${{pot}}</p>
+          <p text-center class="secondaryDisplayText">tap to split</p>
+        </span>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-split-pane>
