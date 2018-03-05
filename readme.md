@@ -8,4 +8,5 @@
     * include the current bet a player has made in the players tracker bar
     * we need to skip the action to the next player wether the previous player checked, called, or folded
     * the action and dealer buttons need to skip players that have been removed and recycle to the top of the list
+* Merge the sean and master branches once I am at a good spot and I am confident I can merge them correctly
 * And probably a bunch more that I am forgetting at the moment
