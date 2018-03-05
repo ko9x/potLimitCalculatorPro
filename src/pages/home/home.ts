@@ -221,7 +221,14 @@ export class HomePage {
         }
       ],
       buttons: [
-        { 
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+          }
+        },
+        {
+           
           text: 'Confirm Blinds',
           handler: data => {
             this.smallBlind = data.smallBlind;
