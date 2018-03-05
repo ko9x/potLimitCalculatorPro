@@ -87,7 +87,6 @@ export class HomePage {
     this.error = false;
     this.newHand();
   }
-
   register(n:string){
     this.error ? this.clear() : null;
     if(this.primaryNumber===this.previousAnswer.toString()&&this.previousAnswer!==0){
@@ -105,7 +104,7 @@ export class HomePage {
   }
 
   addPlayer(playerPosition) {
-    this.players = this.players + playerPosition;
+    this.players.push(playerPosition);
     console.log(this.players)
     this.addPlayerName(playerPosition)
   }
@@ -156,8 +155,11 @@ export class HomePage {
     var i = this.currentAction.slice(-1)
     var n = Number(i)
     var n1 = n += 1
+    if(this.players.indexOf(this.currentAction.slice(0, -1) + n1.toString()) !== -1) {
+      this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
+    } else {
+    }
 
-    this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
   }
 
   nextDealer() {
