@@ -24,11 +24,59 @@ export class HomePage {
   lowPot: string = "0";
   splitFactor: string = "0"
   previousAnswer:number=0;
-  history:Array<string>
+  history:Array<string>;
   error:boolean;
+  players:Array<string>;
+  currentDealer: string = "player1";
+  currentAction: string = "player3";
+  playerNumber: string;
+
+  player1Name: string = "add name";
+  player2Name: string = "add name";
+  player3Name: string = "";
+  player4Name: string = "";
+  player5Name: string = "";
+  player6Name: string = "";
+  player7Name: string = "";
+  player8Name: string = "";
+  player9Name: string = "";
+  player10Name: string = "";
+
+  player1Bet: string = "";
+  player2Bet: string = "";
+  player3Bet: string = "";
+  player4Bet: string = "";
+  player5Bet: string = "";
+  player6Bet: string = "";
+  player7Bet: string = "";
+  player8Bet: string = "";
+  player9Bet: string = "";
+  player10Bet: string = "";
+
+  player1D: boolean = false;
+  player2D: boolean = false;
+  player3D: boolean = false;
+  player4D: boolean = false;
+  player5D: boolean = false;
+  player6D: boolean = false;
+  player7D: boolean = false;
+  player8D: boolean = false;
+  player9D: boolean = false;
+  player10D: boolean = false;
+  player1A: boolean = false;
+  player2A: boolean = false;
+  player3A: boolean = false;
+  player4A: boolean = false;
+  player5A: boolean = false;
+  player6A: boolean = false;
+  player7A: boolean = false;
+  player8A: boolean = false;
+  player9A: boolean = false;
+  player10A: boolean = false;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
     this.handStages = ["Pre-Flop", "Flop", "Turn", "River"];
+    this.players = []
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -56,13 +104,64 @@ export class HomePage {
     }
   }
 
+  addPlayer(playerPosition) {
+    this.players = this.players + playerPosition;
+    console.log(this.players)
+    this.addPlayerName(playerPosition)
+  }
+
+  addPlayerName(playerPosition) {
+    let alert = this.alertCtrl.create({
+      title: 'enter name',
+      message: 'limit 7 characters',
+      inputs: [
+        {
+          name: 'playerName',
+          placeholder: 'enter name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            var playerName = playerPosition + 'Name'
+            this[playerName] = data.playerName
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   call() {
     let x = this.currentBet;
     let y = this.pot;
     let z = 0
     z = Number(x) + Number(y);
       this.pot = z.toString(); 
+  }
+
+  fold() {
     
+  }
+
+  nextAction() {
+    var i = this.currentAction.slice(-1)
+    var n = Number(i)
+    var n1 = n += 1
+
+    var str1 = "Notion,Data,Identity,";
+    var str2 = this.currentAction.slice(0, -1) + n1.toString();
+    console.log(str2);
+  }
+
+  nextDealer() {
 
   }
 
