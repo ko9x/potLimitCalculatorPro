@@ -27,19 +27,19 @@ export class HomePage {
   // player tracking properties
   players:Array<string>;
   currentDealer: string = "player1";
-  currentAction: string = "player3";
+  currentAction: string = "player1";
   playerNumber: string;
 
-  player1Name: string = "add name";
-  player2Name: string = "add name";
-  player3Name: string = "";
-  player4Name: string = "";
-  player5Name: string = "";
-  player6Name: string = "";
-  player7Name: string = "";
-  player8Name: string = "";
-  player9Name: string = "";
-  player10Name: string = "";
+  player1Name: string = "player1";
+  player2Name: string = "player2";
+  player3Name: string = "player3";
+  player4Name: string = "seat open";
+  player5Name: string = "seat open";
+  player6Name: string = "seat open";
+  player7Name: string = "seat open";
+  player8Name: string = "seat open";
+  player9Name: string = "seat open";
+  player10Name: string = "seat open";
 
   player1Bet: string = "";
   player2Bet: string = "";
@@ -75,7 +75,7 @@ export class HomePage {
   player10A: boolean = false;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.players = []
+    this.players = ["player1","player2","player3"]
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -84,7 +84,7 @@ export class HomePage {
     this.history = [];
     this.previousAnswer = 0;
     this.error = false;
-    this.newHand();
+    this.newGame();
   }
   register(n:string){
     this.error ? this.clear() : null;
@@ -132,12 +132,21 @@ export class HomePage {
     this.previousAnswer = 0;
   }
 
+  newGame() {
+    this.pot = "0";
+    this.currentBet = this.bigBlind;
+    this.primaryNumber = "0";
+    this.potBetAmount = "0";
+    this.blindsToPot();
+  }
+
   newHand() {
     this.pot = "0";
     this.currentBet = this.bigBlind;
     this.primaryNumber = "0";
     this.potBetAmount = "0";
     this.blindsToPot();
+    this.nextDealer();
   }
 
   blindsToPot() {
@@ -169,29 +178,59 @@ export class HomePage {
     this.potBetConfirm();
   }
 
-  addPlayer(playerPosition) {
-    this.players.push(playerPosition);
-    this.addPlayerName(playerPosition)
+  // Player tracking functions
+
+  editPlayer(playerPosition) {
+    if(this.players.indexOf(playerPosition) > -1){
+      this.playerOptions(playerPosition);
+    } else {
+      this.addPlayerName(playerPosition);
+    }
+    
   }
 
+
   nextAction() {
-    var i = this.currentAction.slice(-1)
-    var n = Number(i)
-    var n1 = n += 1
-    if(this.players.indexOf(this.currentAction.slice(0, -1) + n1.toString()) !== -1) {
-      this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
+    let p = this.players.indexOf(this.currentAction);
+    let next = p += 1
+    if(this.players.indexOf(this.currentAction) === (this.players.length - 1)) {
+      this.currentAction = this.players[0]
     } else {
+      this.currentAction = this.players[next]
+      
     }
 
   }
 
   nextDealer() {
-
+    let p = this.players.indexOf(this.currentDealer);
+    let next = p += 1
+    if(this.players.indexOf(this.currentDealer) === (this.players.length - 1)) {
+      this.currentDealer = this.players[0]
+    } else {
+      this.currentDealer = this.players[next]
+    }
+    this.currentAction = this.currentDealer;
+    this.nextAction();
+    this.nextAction();
+    this.nextAction();
   }
+
+  removePlayer(playerPosition) {
+    let i = this.players.indexOf(playerPosition);
+    let playerName = playerPosition + "Name"
+    this.players.splice(i,1);
+    this[playerName] = "seat open";
+  }
+
 
   // Alerts
 
   addPlayerName(playerPosition) {
+    let p = this.players.indexOf(playerPosition);
+    if(this.players.indexOf(playerPosition) > -1){
+      this.players.splice(p,1);
+    }
     let alert = this.alertCtrl.create({
       title: 'enter name',
       message: 'limit 7 characters',
@@ -212,14 +251,58 @@ export class HomePage {
         {
           text: 'Confirm',
           handler: data => {
-            var playerName = playerPosition + 'Name'
-            this[playerName] = data.playerName
+            this.players.push(playerPosition);
+            var playerName = playerPosition + 'Name';
+            this[playerName] = data.playerName;
+            console.log(this.players);
           }
         }
       ]
     });
     alert.present();
   }
+
+  playerOptions(playerPosition) {
+    let alert = this.alertCtrl.create({
+      title: 'Edit Player',
+      message: 'What would you like to do?',
+      buttons: [
+        {
+          text: 'Change Name',
+          handler: () => {
+            this.addPlayerName(playerPosition);
+          }
+        },
+        {
+          text: 'Remove Player',
+          handler: () => {
+            this.removePlayer(playerPosition);
+          }
+        },
+        {
+          text: 'Move Dealer',
+          handler: () => {
+            this.currentDealer = playerPosition;
+          }
+        },
+        {
+          text: 'Move Action',
+          handler: () => {
+            this.currentAction = playerPosition;
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  
 
   setBlinds() {
     let alert = this.alertCtrl.create({

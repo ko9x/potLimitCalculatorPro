@@ -7,34 +7,34 @@
   <ion-content class="playerTracker">
     <ion-grid class="trackerGrid">
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player1')" [class.actionOn]="player1A"  [class.dealer]="player1D" id="trackerTopButton">{{player1Name}} {{player1Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player1')" [class.actionOn]="currentAction === 'player1'"  [class.dealer]="currentDealer === 'player1'" id="trackerTopButton"><ul><li>{{player1Name}}</li> <li>{{player1Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player2')" [class.actionOn]="player2A" [class.dealer]="player2D" class="trackerButtons">{{player2Name}} {{player2Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player2')" [class.actionOn]="currentAction === 'player2'" [class.dealer]="currentDealer === 'player2'" class="trackerButtons"><ul><li>{{player2Name}}</li> <li>{{player2Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player3')" [class.actionOn]="player3A" [class.dealer]="player3D" class="trackerButtons">{{player3Name}} {{player3Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player3')" [class.actionOn]="currentAction === 'player3'" [class.dealer]="currentDealer === 'player3'" class="trackerButtons"><ul><li>{{player3Name}}</li> <li>{{player3Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player4')" [class.actionOn]="player4A" [class.dealer]="player4D" class="trackerButtons">{{player4Name}} {{player4Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player4')" [class.actionOn]="currentAction === 'player4'" [class.dealer]="currentDealer === 'player4'" class="trackerButtons"><ul><li>{{player4Name}}</li> <li>{{player4Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player5')" [class.actionOn]="player5A" [class.dealer]="player5D" class="trackerButtons">{{player5Name}} {{player5Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player5')" [class.actionOn]="currentAction === 'player5'" [class.dealer]="currentDealer === 'player5'" class="trackerButtons"><ul><li>{{player5Name}}</li> <li>{{player5Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player6')" [class.actionOn]="player6A" [class.dealer]="player6D" class="trackerButtons">{{player6Name}} {{player6Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player6')" [class.actionOn]="currentAction === 'player6'" [class.dealer]="currentDealer === 'player6'" class="trackerButtons"><ul><li>{{player6Name}}</li> <li>{{player6Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player7')" [class.actionOn]="player7A" [class.dealer]="player7D" class="trackerButtons">{{player7Name}} {{player7Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player7')" [class.actionOn]="currentAction === 'player7'" [class.dealer]="currentDealer === 'player7'" class="trackerButtons"><ul><li>{{player7Name}}</li> <li>{{player7Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player8')" [class.actionOn]="player8A" [class.dealer]="player8D" class="trackerButtons">{{player8Name}} {{player8Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player8')" [class.actionOn]="currentAction === 'player8'" [class.dealer]="currentDealer === 'player8'" class="trackerButtons"><ul><li>{{player8Name}}</li> <li>{{player8Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player9')" [class.actionOn]="player9A" [class.dealer]="player9D" class="trackerButtons">{{player9Name}} {{player9Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player9')" [class.actionOn]="currentAction === 'player9'" [class.dealer]="currentDealer === 'player9'" class="trackerButtons"><ul><li>{{player9Name}}</li> <li>{{player9Bet}}</li></ul></button>
       </ion-row>
       <ion-row>
-        <button ion-button text-wrap col-12 (click)="addPlayer('player10')" [class.actionOn]="player10A" [class.dealer]="player10D" class="trackerButtons">{{player10Name}} {{player10Bet}}</button>
+        <button ion-button text-wrap col-12 (click)="editPlayer('player10')" [class.actionOn]="currentAction === 'player10'" [class.dealer]="currentDealer === 'player10'" class="trackerButtons"><ul><li>{{player10Name}}</li> <li>{{player10Bet}}</li></ul></button>
       </ion-row>
     </ion-grid>
   </ion-content>

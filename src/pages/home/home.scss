@@ -1,5 +1,14 @@
 page-home {
 
+    ul {
+        list-style: none;
+        margin-left: -40px;
+    }
+
+    li {
+        padding-bottom: 5px;
+    }
+
     .playerTracker {
         max-width: 100px!important;
         min-width: 100px!important;
@@ -9,16 +18,17 @@ page-home {
         margin-top: 33px;
       }
 
+      #trackerTopButton {
+        height: 3.2em;
+      }
+
       .trackerButtons{
         height: 3.2em !important;
         margin-top: 8px !important;
     }
 
-    #trackerTopButton {
-    }
-
     .dealer {
-        border: solid red 5px !important;
+        border: solid black 4px !important;
     }
 
     .actionOn {
