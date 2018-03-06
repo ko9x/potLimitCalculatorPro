@@ -1,4 +1,4 @@
-#Major Design Change (well pretty major)
+# Major Design Change (well pretty major)
 * I want to make a player object that includes
     * name
     * bet
@@ -7,7 +7,7 @@
     
 
 
-#Things to do
+# Things to do
 * Add Bet Tracking to the player tracker
     * include the current bet a player has made in the players tracker bar
     * we need to skip the action to the next player wether the previous player checked, called, or folded
