@@ -16,7 +16,7 @@ export class HomePage {
   previousAnswer:number=0;
   history:Array<string>;
   error:boolean;
-  // bet tracking properties
+  
   smallBlind: string = ".25";
   bigBlind: string = ".50";
   pot: string = "0";
@@ -24,8 +24,9 @@ export class HomePage {
   currentBet: string = this.bigBlind;
   primaryNumber: string = "0";
   splitFactor: string = "0"
-  // player tracking properties
+
   players:Array<string>;
+  playerStates:Array<string>;
   currentDealer: string = "player1";
   currentAction: string = "player1";
   playerNumber: string;
@@ -33,9 +34,9 @@ export class HomePage {
   player1Name: string = "player1";
   player2Name: string = "player2";
   player3Name: string = "player3";
-  player4Name: string = "seat open";
-  player5Name: string = "seat open";
-  player6Name: string = "seat open";
+  player4Name: string = "player 4";
+  player5Name: string = "player 5";
+  player6Name: string = "player 6";
   player7Name: string = "seat open";
   player8Name: string = "seat open";
   player9Name: string = "seat open";
@@ -52,30 +53,20 @@ export class HomePage {
   player9Bet: string = "";
   player10Bet: string = "";
 
-  player1D: boolean = false;
-  player2D: boolean = false;
-  player3D: boolean = false;
-  player4D: boolean = false;
-  player5D: boolean = false;
-  player6D: boolean = false;
-  player7D: boolean = false;
-  player8D: boolean = false;
-  player9D: boolean = false;
-  player10D: boolean = false;
-
-  player1A: boolean = false;
-  player2A: boolean = false;
-  player3A: boolean = false;
-  player4A: boolean = false;
-  player5A: boolean = false;
-  player6A: boolean = false;
-  player7A: boolean = false;
-  player8A: boolean = false;
-  player9A: boolean = false;
-  player10A: boolean = false;
+  player1Status: string = "active";
+  player2Status: string = "active";
+  player3Status: string = "active";
+  player4Status: string = "active";
+  player5Status: string = "active";
+  player6Status: string = "active";
+  player7Status: string = "out";
+  player8Status: string = "out";
+  player9Status: string = "out";
+  player10Status: string = "out";
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.players = ["player1","player2","player3"]
+    this.players = ["player1","player2","player3","player4","player5","player6"]
+    this.playerStates = ["active","inactive","out"]
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -167,6 +158,8 @@ export class HomePage {
 
   fold() {
     this.nextAction();
+    let playerStatus = this.currentAction + "Status";
+    this[playerStatus] = "inactive";
   }
 
   potBet() {
@@ -176,6 +169,19 @@ export class HomePage {
     z = (Number(y) * 2) + Number(x);
     this.potBetAmount = z.toString();
     this.potBetConfirm();
+  }
+
+  clearBets() {
+    this.player1Bet = "";
+    this.player2Bet = "";
+    this.player3Bet = "";
+    this.player4Bet = "";
+    this.player5Bet = "";
+    this.player6Bet = "";
+    this.player7Bet = "";
+    this.player8Bet = "";
+    this.player9Bet = "";
+    this.player10Bet = "";
   }
 
   // Player tracking functions
@@ -210,17 +216,24 @@ export class HomePage {
     } else {
       this.currentDealer = this.players[next]
     }
+    this.clearBets();
     this.currentAction = this.currentDealer;
     this.nextAction();
+    let sb = this.currentAction + "Bet";
+    this[sb] = this.smallBlind;
     this.nextAction();
+    let bb = this.currentAction + "Bet";
+    this[bb] = this.bigBlind;
     this.nextAction();
   }
 
   removePlayer(playerPosition) {
     let i = this.players.indexOf(playerPosition);
     let playerName = playerPosition + "Name"
+    let playerStatus = playerPosition + "Status"
     this.players.splice(i,1);
     this[playerName] = "seat open";
+    this[playerStatus] = "out";
   }
 
 
@@ -252,9 +265,10 @@ export class HomePage {
           text: 'Confirm',
           handler: data => {
             this.players.push(playerPosition);
-            var playerName = playerPosition + 'Name';
+            let playerName = playerPosition + 'Name';
+            let playerStatus = playerPosition + 'Status'
             this[playerName] = data.playerName;
-            console.log(this.players);
+            this[playerStatus] = "active";
           }
         }
       ]
