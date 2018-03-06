@@ -1,3 +1,8 @@
+# Abandoning for now. 
+* I dont want to waste a day or more trying to figure out how to make a player object.
+* I will revisit this branch once I have a working potLimitCalculatorPro 
+
+
 # Major Design Change (well pretty major)
 * I want to make a player object that includes
     * name
