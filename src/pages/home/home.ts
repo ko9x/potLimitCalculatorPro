@@ -12,20 +12,19 @@ export class HomePage {
   row1 : Array<string>;
   row2 : Array<string>;
   row3 : Array<string>;
-  handStages : Array<string>;
+  // register function properties
+  previousAnswer:number=0;
+  history:Array<string>;
+  error:boolean;
+  // bet tracking properties
   smallBlind: string = ".25";
   bigBlind: string = ".50";
   pot: string = "0";
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
-  handStatus: string = "Pre-Flop";
   primaryNumber: string = "0";
-  highPot: string = "0";
-  lowPot: string = "0";
   splitFactor: string = "0"
-  previousAnswer:number=0;
-  history:Array<string>;
-  error:boolean;
+  // player tracking properties
   players:Array<string>;
   currentDealer: string = "player1";
   currentAction: string = "player3";
@@ -63,6 +62,7 @@ export class HomePage {
   player8D: boolean = false;
   player9D: boolean = false;
   player10D: boolean = false;
+
   player1A: boolean = false;
   player2A: boolean = false;
   player3A: boolean = false;
@@ -75,7 +75,6 @@ export class HomePage {
   player10A: boolean = false;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.handStages = ["Pre-Flop", "Flop", "Turn", "River"];
     this.players = []
     //Number Panel
     this.row1 = ["7","8","9"];
@@ -103,11 +102,94 @@ export class HomePage {
     }
   }
 
+  addDecimal(){
+    this.primaryNumber.indexOf(".") == -1? this.primaryNumber+=".":null;
+  }
+
+  solve() {
+    var x = this.primaryNumber
+    var y = this.pot
+    var z = 0
+    if(x != "") {
+      z = (+x + +y);
+      if (Number(x) >= Number(this.currentBet)) {
+        this.currentBet = x;
+      } else {
+      }
+    } 
+    this.pot = z.toString();
+    this.primaryNumber = "0";
+  }
+
+  clear(){
+    this.error = false;
+    this.primaryNumber = "0";
+  }
+
+  onError(){
+    this.primaryNumber = "ERROR";
+    this.error = true;
+    this.previousAnswer = 0;
+  }
+
+  newHand() {
+    this.pot = "0";
+    this.currentBet = this.bigBlind;
+    this.primaryNumber = "0";
+    this.potBetAmount = "0";
+    this.blindsToPot();
+  }
+
+  blindsToPot() {
+    let x = this.smallBlind;
+    let y = this.bigBlind;
+    let z = 0
+    z = Number(x) + Number(y);
+    this.pot = z.toString();
+  }
+
+  call() {
+    let x = this.currentBet;
+    let y = this.pot;
+    let z = 0
+    z = Number(x) + Number(y);
+      this.pot = z.toString(); 
+  }
+
+  fold() {
+    this.nextAction();
+  }
+
+  potBet() {
+    let x = this.pot;
+    let y = this.currentBet;
+    let z = 0
+    z = (Number(y) * 2) + Number(x);
+    this.potBetAmount = z.toString();
+    this.potBetConfirm();
+  }
+
   addPlayer(playerPosition) {
     this.players.push(playerPosition);
-    console.log(this.players)
     this.addPlayerName(playerPosition)
   }
+
+  nextAction() {
+    var i = this.currentAction.slice(-1)
+    var n = Number(i)
+    var n1 = n += 1
+    if(this.players.indexOf(this.currentAction.slice(0, -1) + n1.toString()) !== -1) {
+      this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
+    } else {
+    }
+
+  }
+
+  nextDealer() {
+
+  }
+
+  // Alerts
 
   addPlayerName(playerPosition) {
     let alert = this.alertCtrl.create({
@@ -132,169 +214,6 @@ export class HomePage {
           handler: data => {
             var playerName = playerPosition + 'Name'
             this[playerName] = data.playerName
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  call() {
-    let x = this.currentBet;
-    let y = this.pot;
-    let z = 0
-    z = Number(x) + Number(y);
-      this.pot = z.toString(); 
-  }
-
-  fold() {
-    this.nextAction();
-  }
-
-  nextAction() {
-    var i = this.currentAction.slice(-1)
-    var n = Number(i)
-    var n1 = n += 1
-    if(this.players.indexOf(this.currentAction.slice(0, -1) + n1.toString()) !== -1) {
-      this.currentAction = this.currentAction.slice(0, -1) + n1.toString();
-    } else {
-    }
-
-  }
-
-  nextDealer() {
-
-  }
-
-  changeHandStatus() {
-    if(this.handStatus === "Pre-Flop") {
-      this.handStatus = "Flop";
-      this.currentBet = "0";
-      
-    }
-   else if(this.handStatus === "Flop") {
-      this.handStatus = "Turn";
-      this.currentBet = "0";
-      
-    }
-    else if (this.handStatus === "Turn") {
-      this.handStatus = "River";
-      this.currentBet = "0";
-      
-    }
-  }
-
-  newHand() {
-    this.pot = "0";
-    this.handStatus = "Pre-Flop";
-    this.currentBet = this.bigBlind;
-    this.primaryNumber = "0";
-    this.potBetAmount = "0";
-    this.blindsToPot();
-  }
-
-  
-  clear(){
-    this.error = false;
-    this.primaryNumber = "0";
-  }
-  
-  addDecimal(){
-    this.primaryNumber.indexOf(".") == -1? this.primaryNumber+=".":null;
-  }
-
-  blindsToPot() {
-    let x = this.smallBlind;
-    let y = this.bigBlind;
-    let z = 0
-    z = Number(x) + Number(y);
-    this.pot = z.toString();
-  }
-
-  isQualifyingLow(smallBlind, pot) {
-    let alert = this.alertCtrl.create({
-      title: 'Is there a qualifying low?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-            this.navCtrl.push(HLSplitPage, {smallBlind: smallBlind, pot: pot});
-          }
-        },
-        {
-          text: 'No',
-          handler: () => {
-            this.regularSplit();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-
-  solve() {
-    var x = this.primaryNumber
-    var y = this.pot
-    var z = 0
-    if(x != "") {
-      z = (+x + +y);
-      if (Number(x) >= Number(this.currentBet)) {
-        this.currentBet = x;
-      } else {
-        // this.underBetAlert();
-      }
-    } 
-    this.pot = z.toString();
-    this.primaryNumber = "0";
-    // this.potBet();
-  }
-
-  potBet() {
-    let x = this.pot;
-    let y = this.currentBet;
-    let z = 0
-    z = (Number(y) * 2) + Number(x);
-    this.potBetAmount = z.toString();
-    this.potBetConfirm();
-  }
-
-  underBetAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'Is somebody All in?',
-      subTitle: 'Calls that are smaller than the current bet must be entered manually.',
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  }
-
-  potBetConfirm() {
-    let alert = this.alertCtrl.create({
-      title: "The pot bet amount is currently", 
-      message: this.potBetAmount,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Bet the Pot',
-          handler: () => {
-            let x = this.pot;
-            let y = this.potBetAmount;
-            let z = 0;
-            z = Number(y) + Number(x);
-            this.pot = z.toString();
-            this.currentBet = y.toString();
           }
         }
       ]
@@ -331,17 +250,50 @@ export class HomePage {
            
           text: 'Confirm Blinds',
           handler: data => {
+            if(data.smallBlind !== "" && data.bigBlind !== "") {
+            this.newHand();
             this.smallBlind = data.smallBlind;
             this.bigBlind = data.bigBlind;
             this.blindsToPot();
             this.currentBet = this.bigBlind;
-            this.handStatus = "Pre-Flop"
+            } else {
+              console.log('enter a number')
+            }
+            
             
           }
         
         }
       ]
       
+    });
+    alert.present();
+  }
+
+  potBetConfirm() {
+    let alert = this.alertCtrl.create({
+      title: "The pot bet amount is currently", 
+      message: this.potBetAmount,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Bet the Pot',
+          handler: () => {
+            let x = this.pot;
+            let y = this.potBetAmount;
+            let z = 0;
+            z = Number(y) + Number(x);
+            this.pot = z.toString();
+            this.currentBet = y.toString();
+          }
+        }
+      ]
     });
     alert.present();
   }
@@ -369,6 +321,33 @@ export class HomePage {
           text: 'Confirm',
           handler: data => {
             this.currentBet = data.newCurrentBet
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  isQualifyingLow(smallBlind, pot) {
+    let alert = this.alertCtrl.create({
+      title: 'Is there a qualifying low?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.navCtrl.push(HLSplitPage, {smallBlind: smallBlind, pot: pot});
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.regularSplit();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
           }
         }
       ]
@@ -406,9 +385,5 @@ export class HomePage {
     alert.present();
   }
 
-  onError(){
-    this.primaryNumber = "ERROR";
-    this.error = true;
-    this.previousAnswer = 0;
-  }
+
 }
