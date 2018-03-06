@@ -25,47 +25,112 @@ export class HomePage {
   primaryNumber: string = "0";
   splitFactor: string = "0"
 
-  players:Array<string>;
+  // players:Array<string>;
+  
+
+
+  player1: Object = {
+    player: "player1",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player2: Object = {
+    player: "player2",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player3: Object = {
+    player: "player3",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player4: Object = {
+    player: "player4",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player5: Object = {
+    player: "player5",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player6: Object = {
+    player: "player6",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player7: Object = {
+    player: "player7",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player8: Object = {
+    player: "player8",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player9: Object = {
+    player: "player9",
+    name: "",
+    bet: "",
+    status: "",
+  }
+  player10: Object = {
+    player: "player10",
+    name: "",
+    bet: "",
+    status: "",
+  }
+
+  players:Array<object>;
   playerStates:Array<string>;
-  currentDealer: string = "player1";
+  currentDealer: string = this.player1.player;
   currentAction: string = "player1";
   playerNumber: string;
 
-  player1Name: string = "player1";
-  player2Name: string = "player2";
-  player3Name: string = "player3";
-  player4Name: string = "player 4";
-  player5Name: string = "player 5";
-  player6Name: string = "player 6";
-  player7Name: string = "seat open";
-  player8Name: string = "seat open";
-  player9Name: string = "seat open";
-  player10Name: string = "seat open";
+  // player1Name: string = "player1";
+  // player2Name: string = "player2";
+  // player3Name: string = "player3";
+  // player4Name: string = "player 4";
+  // player5Name: string = "player 5";
+  // player6Name: string = "player 6";
+  // player7Name: string = "seat open";
+  // player8Name: string = "seat open";
+  // player9Name: string = "seat open";
+  // player10Name: string = "seat open";
 
-  player1Bet: string = "";
-  player2Bet: string = "";
-  player3Bet: string = "";
-  player4Bet: string = "";
-  player5Bet: string = "";
-  player6Bet: string = "";
-  player7Bet: string = "";
-  player8Bet: string = "";
-  player9Bet: string = "";
-  player10Bet: string = "";
+  // player1Bet: string = "";
+  // player2Bet: string = "";
+  // player3Bet: string = "";
+  // player4Bet: string = "";
+  // player5Bet: string = "";
+  // player6Bet: string = "";
+  // player7Bet: string = "";
+  // player8Bet: string = "";
+  // player9Bet: string = "";
+  // player10Bet: string = "";
 
-  player1Status: string = "active";
-  player2Status: string = "active";
-  player3Status: string = "active";
-  player4Status: string = "active";
-  player5Status: string = "active";
-  player6Status: string = "active";
-  player7Status: string = "out";
-  player8Status: string = "out";
-  player9Status: string = "out";
-  player10Status: string = "out";
+  // player1Status: string = "active";
+  // player2Status: string = "active";
+  // player3Status: string = "active";
+  // player4Status: string = "active";
+  // player5Status: string = "active";
+  // player6Status: string = "active";
+  // player7Status: string = "out";
+  // player8Status: string = "out";
+  // player9Status: string = "out";
+  // player10Status: string = "out";
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.players = ["player1","player2","player3","player4","player5","player6"]
+    this.players = [this.player1,this.player2,this.player3,this.player4,this.player5,this.player6]
     this.playerStates = ["active","inactive","out"]
     //Number Panel
     this.row1 = ["7","8","9"];
@@ -76,6 +141,7 @@ export class HomePage {
     this.previousAnswer = 0;
     this.error = false;
     this.newGame();
+    console.log('player1', this.player1.player); //@DEBUG
   }
   register(n:string){
     this.error ? this.clear() : null;
@@ -171,18 +237,18 @@ export class HomePage {
     this.potBetConfirm();
   }
 
-  clearBets() {
-    this.player1Bet = "";
-    this.player2Bet = "";
-    this.player3Bet = "";
-    this.player4Bet = "";
-    this.player5Bet = "";
-    this.player6Bet = "";
-    this.player7Bet = "";
-    this.player8Bet = "";
-    this.player9Bet = "";
-    this.player10Bet = "";
-  }
+  // clearBets() {
+  //   this.player1Bet = "";
+  //   this.player2Bet = "";
+  //   this.player3Bet = "";
+  //   this.player4Bet = "";
+  //   this.player5Bet = "";
+  //   this.player6Bet = "";
+  //   this.player7Bet = "";
+  //   this.player8Bet = "";
+  //   this.player9Bet = "";
+  //   this.player10Bet = "";
+  // }
 
   // Player tracking functions
 
