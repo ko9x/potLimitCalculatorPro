@@ -1,8 +1,4 @@
-<!--<ion-header>
-  <ion-navbar>
-  </ion-navbar>
-</ion-header>-->
-
+<!-- Player Tracker Section -->
 <ion-split-pane>
   <ion-content class="playerTracker">
     <ion-grid class="trackerGrid">
@@ -39,6 +35,7 @@
     </ion-grid>
   </ion-content>
 
+  <!-- Main Section -->
 
   <ion-content class="mainContent" padding-top padding-right padding-bottom main > 
 
@@ -52,7 +49,9 @@
         <button ion-button col-3 class="topButtons" (click)="newHand()" text-wrap>New Hand</button>
       </ion-row>
     </ion-grid>
-
+    <div id="handStage">
+      <p id="handStageText" (click)="checkBettingRoundStatus()">{{currentHandStage}}</p>
+    </div>
     <ion-grid>
       <ion-row nowrap class="callRow">
         <button ion-button col-4 class="middleButtons" (click)="call()">Call</button>
