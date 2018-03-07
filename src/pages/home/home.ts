@@ -23,113 +23,90 @@ export class HomePage {
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
   primaryNumber: string = "0";
-  splitFactor: string = "0"
-
-  // players:Array<string>;
+  splitFactor: string = "0";
   
   player1 = {
     title: "player1",
     name: "add name",
     bet: "",
     status: "active"
-  }
+  };
+
   player2 = {
     title: "player2",
     name: "add name",
     bet: "",
     status: "active"
-  }
+  };
+
   player3 = {
     title: "player3",
     name: "add name",
     bet: "",
     status: "active"
-  }
+  };
+
   player4 = {
     title: "player4",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player5 = {
     title: "player5",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player6 = {
     title: "player6",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player7 = {
     title: "player7",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player8 = {
     title: "player8",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player9 = {
     title: "player9",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
+
   player10 = {
     title: "player10",
     name: "seat open",
     bet: "",
     status: "inactive"
-  }
+  };
 
   players:Array<any>;
   playerStates:Array<string>;
+  handStages:Array<string>;
+  currentHandStage: string = "";
   currentDealer = this.player1;
   currentAction= this.player1;
   playerNumber: string;
 
-  // player1Name: string = "player1";
-  // player2Name: string = "player2";
-  // player3Name: string = "player3";
-  // player4Name: string = "player 4";
-  // player5Name: string = "player 5";
-  // player6Name: string = "player 6";
-  // player7Name: string = "seat open";
-  // player8Name: string = "seat open";
-  // player9Name: string = "seat open";
-  // player10Name: string = "seat open";
-
-  // player1Bet: string = "";
-  // player2Bet: string = "";
-  // player3Bet: string = "";
-  // player4Bet: string = "";
-  // player5Bet: string = "";
-  // player6Bet: string = "";
-  // player7Bet: string = "";
-  // player8Bet: string = "";
-  // player9Bet: string = "";
-  // player10Bet: string = "";
-
-  // player1Status: string = "active";
-  // player2Status: string = "active";
-  // player3Status: string = "active";
-  // player4Status: string = "active";
-  // player5Status: string = "active";
-  // player6Status: string = "active";
-  // player7Status: string = "out";
-  // player8Status: string = "out";
-  // player9Status: string = "out";
-  // player10Status: string = "out";
-
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
     this.players = [this.player1,this.player2,this.player3]
     this.playerStates = ["active","inactive"]
+    this.handStages = ["Pre-Flop","Flop","Turn","River"]
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -198,6 +175,7 @@ export class HomePage {
     this.primaryNumber = "0";
     this.potBetAmount = "0";
     this.blindsToPot();
+    this.currentHandStage = "Pre-Flop";
   }
 
   newHand() {
@@ -228,8 +206,12 @@ export class HomePage {
       let z = 0
     z = Number(x) + Number(y);
       this.pot = z.toString();
+      
     }
-    
+    let TIME_IN_MS = 100;
+    let holdUp = setTimeout( () => {
+      this.checkBettingRoundStatus();
+    }, TIME_IN_MS);
     this.currentAction.bet = this.currentBet;
     this.nextAction();
   }
@@ -249,16 +231,47 @@ export class HomePage {
   }
 
   clearBets() {
-    this.players.forEach(function(element){
+    this.players.forEach(function(element) {
       element.bet = "";
     })
   }
 
   resetStates() {
-    this.players.forEach(function(element){
+    this.players.forEach(function(element) {
       element.status = "active";
     })
   }
+
+  nextBettingRound() {
+    let next = this.handStages.indexOf(this.currentHandStage) + 1;
+    this.currentHandStage = this.handStages[next];
+  }
+
+  checkBettingRoundStatus() {
+    let activePlayers = [];
+    let x = this.currentBet;
+    this.players.forEach(function(element) {
+      if(element.status === "active") {
+        activePlayers.push(element);
+      }
+    });
+    let betGood = [];
+    activePlayers.forEach(function(element) {
+      if(element.bet === x) {
+        betGood.push(element);
+      }
+     
+    });
+    if(activePlayers.length === betGood.length) {
+      if(this.currentHandStage === "Pre-Flop" && x === this.bigBlind) {
+        this.checkBigBlind();
+      } else {
+        this.nextBettingRound();
+      }
+    }
+    console.log('activePlayers', activePlayers.length); //@DEBUG
+    console.log('betGood', betGood.length); //@DEBUG
+  };
 
   // Player tracking functions
 
@@ -292,6 +305,7 @@ export class HomePage {
     } else {
       this.currentDealer = this.players[next]
     }
+    this.currentHandStage = "Pre-Flop";
     this.resetStates();
     this.clearBets();
     this.currentAction = this.currentDealer;
@@ -460,6 +474,28 @@ export class HomePage {
             z = Number(y) + Number(x);
             this.pot = z.toString();
             this.currentBet = y.toString();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  checkBigBlind() {
+    let alert = this.alertCtrl.create({
+      title: 'Option',
+      message: 'Big Blind can check or bet',
+      buttons: [
+        {
+          text: 'Check',
+          handler: () => {
+            this.nextBettingRound();
+          }
+        },
+        {
+          text: 'Bet',
+          role: 'cancel',
+          handler: () => {;
           }
         }
       ]
