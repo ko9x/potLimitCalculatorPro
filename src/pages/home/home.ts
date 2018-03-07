@@ -27,73 +27,71 @@ export class HomePage {
 
   // players:Array<string>;
   
-
-
-  player1: Object = {
-    player: "player1",
+  player1 = {
+    title: "player1",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player2: Object = {
-    player: "player2",
+  player2 = {
+    title: "player2",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player3: Object = {
-    player: "player3",
+  player3 = {
+    title: "player3",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player4: Object = {
-    player: "player4",
+  player4 = {
+    title: "player4",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player5: Object = {
-    player: "player5",
+  player5 = {
+    title: "player5",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player6: Object = {
-    player: "player6",
+  player6 = {
+    title: "player6",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player7: Object = {
-    player: "player7",
+  player7 = {
+    title: "player7",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player8: Object = {
-    player: "player8",
+  player8 = {
+    title: "player8",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player9: Object = {
-    player: "player9",
+  player9 = {
+    title: "player9",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
-  player10: Object = {
-    player: "player10",
+  player10 = {
+    title: "player10",
     name: "",
     bet: "",
-    status: "",
+    status: ""
   }
 
-  players:Array<object>;
+  players:Array<any>;
   playerStates:Array<string>;
-  currentDealer: string = this.player1.player;
-  currentAction: string = "player1";
+  currentDealer = this.player1;
+  currentAction= this.player1;
   playerNumber: string;
 
   // player1Name: string = "player1";
@@ -130,7 +128,7 @@ export class HomePage {
   // player10Status: string = "out";
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.players = [this.player1,this.player2,this.player3,this.player4,this.player5,this.player6]
+    this.players = [this.player1,this.player2,this.player3,this.player4,this.player5,this.player6,this.player7,this.player8,this.player9,this.player10]
     this.playerStates = ["active","inactive","out"]
     //Number Panel
     this.row1 = ["7","8","9"];
@@ -141,7 +139,6 @@ export class HomePage {
     this.previousAnswer = 0;
     this.error = false;
     this.newGame();
-    console.log('player1', this.player1.player); //@DEBUG
   }
   register(n:string){
     this.error ? this.clear() : null;
@@ -282,7 +279,7 @@ export class HomePage {
     } else {
       this.currentDealer = this.players[next]
     }
-    this.clearBets();
+    // this.clearBets();
     this.currentAction = this.currentDealer;
     this.nextAction();
     let sb = this.currentAction + "Bet";
