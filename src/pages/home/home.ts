@@ -29,63 +29,63 @@ export class HomePage {
   
   player1 = {
     title: "player1",
-    name: "",
+    name: "add name",
     bet: "",
-    status: ""
+    status: "active"
   }
   player2 = {
     title: "player2",
-    name: "",
+    name: "add name",
     bet: "",
-    status: ""
+    status: "active"
   }
   player3 = {
     title: "player3",
-    name: "",
+    name: "add name",
     bet: "",
-    status: ""
+    status: "active"
   }
   player4 = {
     title: "player4",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player5 = {
     title: "player5",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player6 = {
     title: "player6",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player7 = {
     title: "player7",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player8 = {
     title: "player8",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player9 = {
     title: "player9",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
   player10 = {
     title: "player10",
-    name: "",
+    name: "seat open",
     bet: "",
-    status: ""
+    status: "inactive"
   }
 
   players:Array<any>;
@@ -128,8 +128,8 @@ export class HomePage {
   // player10Status: string = "out";
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    this.players = [this.player1,this.player2,this.player3,this.player4,this.player5,this.player6,this.player7,this.player8,this.player9,this.player10]
-    this.playerStates = ["active","inactive","out"]
+    this.players = [this.player1,this.player2,this.player3]
+    this.playerStates = ["active","inactive"]
     //Number Panel
     this.row1 = ["7","8","9"];
     this.row2 = ["4","5","6"];
@@ -166,13 +166,19 @@ export class HomePage {
     var z = 0
     if(x != "") {
       z = (+x + +y);
-      if (Number(x) >= Number(this.currentBet)) {
-        this.currentBet = x;
+      if (this.currentAction.bet !== "0") {
+          let increase = Number(x) - Number(this.currentAction.bet);
+          let n = Number(this.pot) + increase
+          this.pot = n.toString();
       } else {
+        this.pot = z.toString();
       }
     } 
-    this.pot = z.toString();
+    
     this.primaryNumber = "0";
+    this.currentAction.bet = x;
+    this.currentBet = x;
+    this.nextAction();
   }
 
   clear(){
@@ -212,17 +218,25 @@ export class HomePage {
   }
 
   call() {
-    let x = this.currentBet;
-    let y = this.pot;
-    let z = 0
+    if(this.currentAction.bet !== "0") {
+      let toCall = Number(this.currentBet) - Number(this.currentAction.bet)
+      let n = Number(this.pot) + toCall
+      this.pot = n.toString();
+    } else {
+      let x = this.currentBet;
+      let y = this.pot;
+      let z = 0
     z = Number(x) + Number(y);
-      this.pot = z.toString(); 
+      this.pot = z.toString();
+    }
+    
+    this.currentAction.bet = this.currentBet;
+    this.nextAction();
   }
 
   fold() {
     this.nextAction();
-    let playerStatus = this.currentAction + "Status";
-    this[playerStatus] = "inactive";
+    this.currentAction.status = "inactive"
   }
 
   potBet() {
@@ -234,23 +248,22 @@ export class HomePage {
     this.potBetConfirm();
   }
 
-  // clearBets() {
-  //   this.player1Bet = "";
-  //   this.player2Bet = "";
-  //   this.player3Bet = "";
-  //   this.player4Bet = "";
-  //   this.player5Bet = "";
-  //   this.player6Bet = "";
-  //   this.player7Bet = "";
-  //   this.player8Bet = "";
-  //   this.player9Bet = "";
-  //   this.player10Bet = "";
-  // }
+  clearBets() {
+    this.players.forEach(function(element){
+      element.bet = "";
+    })
+  }
+
+  resetStates() {
+    this.players.forEach(function(element){
+      element.status = "active";
+    })
+  }
 
   // Player tracking functions
 
   editPlayer(playerPosition) {
-    if(this.players.indexOf(playerPosition) > -1){
+    if(this.players.indexOf(this[playerPosition]) > -1){
       this.playerOptions(playerPosition);
     } else {
       this.addPlayerName(playerPosition);
@@ -279,24 +292,21 @@ export class HomePage {
     } else {
       this.currentDealer = this.players[next]
     }
-    // this.clearBets();
+    this.resetStates();
+    this.clearBets();
     this.currentAction = this.currentDealer;
     this.nextAction();
-    let sb = this.currentAction + "Bet";
-    this[sb] = this.smallBlind;
+    this.currentAction.bet = this.smallBlind;
     this.nextAction();
-    let bb = this.currentAction + "Bet";
-    this[bb] = this.bigBlind;
+    this.currentAction.bet = this.bigBlind;
     this.nextAction();
   }
 
   removePlayer(playerPosition) {
-    let i = this.players.indexOf(playerPosition);
-    let playerName = playerPosition + "Name"
-    let playerStatus = playerPosition + "Status"
+    let i = this.players.indexOf(this[playerPosition]);
     this.players.splice(i,1);
-    this[playerName] = "seat open";
-    this[playerStatus] = "out";
+    this[playerPosition].name = "seat open";
+    this[playerPosition].status = "inactive";
   }
 
 
@@ -309,7 +319,7 @@ export class HomePage {
     }
     let alert = this.alertCtrl.create({
       title: 'enter name',
-      message: 'limit 7 characters',
+      message: 'keep it short',
       inputs: [
         {
           name: 'playerName',
@@ -327,11 +337,10 @@ export class HomePage {
         {
           text: 'Confirm',
           handler: data => {
-            this.players.push(playerPosition);
-            let playerName = playerPosition + 'Name';
-            let playerStatus = playerPosition + 'Status'
-            this[playerName] = data.playerName;
-            this[playerStatus] = "active";
+            this.players.push(this[playerPosition]);
+            this[playerPosition].name = data.playerName;
+            this[playerPosition].status = "active";
+            this.newHand();
           }
         }
       ]
@@ -359,13 +368,13 @@ export class HomePage {
         {
           text: 'Move Dealer',
           handler: () => {
-            this.currentDealer = playerPosition;
+            this.currentDealer = this[playerPosition];
           }
         },
         {
           text: 'Move Action',
           handler: () => {
-            this.currentAction = playerPosition;
+            this.currentAction = this[playerPosition];
           }
         },
         {
