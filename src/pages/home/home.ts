@@ -183,7 +183,6 @@ export class HomePage {
   }
 
   newHand() {
-    console.log('new hand ran', ); //@DEBUG
     this.pot = "0";
     this.currentBet = this.bigBlind;
     this.primaryNumber = "0";
@@ -204,11 +203,9 @@ export class HomePage {
 
   call() {
     if(this.currentBet == "") {
-      console.log('hello', ); //@DEBUG
       this.currentAction.bet = "0";
       this.currentBet = "0";
     }
-    console.log('current bet', this.currentBet); //@DEBUG
     if(this.currentAction.bet !== "0") {
       let toCall = Number(this.currentBet) - Number(this.currentAction.bet)
       let n = Number(this.pot) + toCall
@@ -222,7 +219,7 @@ export class HomePage {
       
     }
     let TIME_IN_MS = 100;
-    let holdUp = setTimeout( () => {
+    setTimeout( () => {
       this.checkBettingRoundStatus();
     }, TIME_IN_MS);
     this.currentAction.bet = this.currentBet;
@@ -235,7 +232,7 @@ export class HomePage {
     let i = ap.indexOf(ca);
     this.currentAction.status = "inactive"
     let TIME_IN_MS = 100;
-    let holdUp = setTimeout( () => {
+    setTimeout( () => {
       this.checkBettingRoundStatus();
     }, TIME_IN_MS);
     this.nextAction();
@@ -285,9 +282,7 @@ export class HomePage {
       let t = higher[0].title
       players.forEach(function(element) {
         if(element.title === t) {
-          console.log('this guy', element ); //@DEBUG
           currentAction = element;
-          console.log('currentAction', currentAction); //@DEBUG
         }
         currentAction = element;
       })
@@ -297,35 +292,26 @@ export class HomePage {
     } else {
       this.currentAction = lower[0];
     }
-    console.log('higher', higher); //@DEBUG
-    console.log('lower', lower); //@DEBUG
     this.currentBet = "";
     this.smallestAction = "Check";
     this.currentHandStage = this.handStages[next];
-    console.log('currentAction ', this.currentAction); //@DEBUG
   }
 
-  checkArrays() {
-    console.log('activePlayers', this.activePlayers); //@DEBUG
-    console.log('players', this.players); //@DEBUG
-  }
+  
 
   checkBettingRoundStatus() {
     
-    console.log('activePlayersArray', this.activePlayers); //@DEBUG
     let activePlayers = this.activePlayers;
     let x = this.currentBet;
     this.players.forEach(function(element) {
       if(element.status === "active" && activePlayers.indexOf(element) < 0) {
         activePlayers.push(element);
-        console.log('active player', element.title); //@DEBUG
       }
     });
     let betGood = [];
     activePlayers.forEach(function(element) {
       if(element.bet === x && betGood.indexOf(element) < 0) {
         betGood.push(element);
-        console.log('name and bet',element.title, element.bet ); //@DEBUG
       }
      
     });
@@ -336,8 +322,6 @@ export class HomePage {
         this.nextBettingRound();
       }
     }
-    console.log('activePlayers length', activePlayers.length); //@DEBUG
-    console.log('betGood length', betGood.length); //@DEBUG
   };
 
   // Player tracking functions
@@ -394,7 +378,6 @@ export class HomePage {
   activatePlayers() {
     this.activePlayers = [];
     let activePlayers = this.activePlayers;
-    let players = this.players;
     this.players.forEach(function(element) {
       element.status = "active";
       activePlayers.push(element);
@@ -405,7 +388,6 @@ export class HomePage {
   // Alerts
 
   addPlayerName(playerPosition) {
-    console.log('players array in add alert', this.players); //@DEBUG
     let p = this.players.indexOf(this[playerPosition]);
     let ap = this.activePlayers.indexOf(this[playerPosition]);
     if(this.players.indexOf(this[playerPosition]) > -1) {
@@ -413,7 +395,6 @@ export class HomePage {
     if(this.activePlayers.indexOf(this[playerPosition]) > -1) {
       this.activePlayers.splice(ap,1);
     }
-      console.log('after in add alert', this.players); //@DEBUG
     }
     let alert = this.alertCtrl.create({
       title: 'enter name',
