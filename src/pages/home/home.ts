@@ -103,6 +103,8 @@ export class HomePage {
   currentHandStage: string = "";
   currentDealer = this.player1;
   currentAction= this.player1;
+  BBPlayer = this.player1;
+  SBPlayer = this.player1;
   playerNumber: string;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
@@ -191,6 +193,8 @@ export class HomePage {
     this.blindsToPot();
     this.smallestAction = "Call";
     this.nextDealer();
+    this.establishBBPlayer();
+    this.establishSBPlayer();
   }
 
   blindsToPot() {
@@ -240,12 +244,30 @@ export class HomePage {
   }
 
   potBet() {
+    let ca = this.currentAction;
+    let BBP = this.BBPlayer;
+    let SBP = this.SBPlayer;
+    let bb = this.bigBlind;
+    let sb = this.smallBlind;
     let x = this.pot;
     let y = this.currentBet;
-    let z = 0
+    let z = 0;
+    if(sb === bb) {
+      if(this.currentHandStage === "Pre-Flop" && (ca === SBP && y === bb)) {
+        this.potBetAmount = this.pot
+        this.potBetConfirm();
+        console.log('sb and bb the same', ); //@DEBUG
+      }
+    } else if(this.currentHandStage === "Pre-Flop" && (ca === BBP && y === bb)) {
+       this.potBetAmount = this.pot;
+       this.potBetConfirm();
+       console.log('bb made unraised pot bet', ); //@DEBUG
+    } else {
     z = (Number(y) * 2) + Number(x);
     this.potBetAmount = z.toString();
     this.potBetConfirm();
+    console.log('i ran', ); //@DEBUG
+    }
   }
 
   clearBets() {
@@ -261,7 +283,6 @@ export class HomePage {
   }
 
   nextBettingRound() {
-    let next = this.handStages.indexOf(this.currentHandStage) + 1;
     this.players.forEach(function(element) {
       element.bet = "";
     });
@@ -294,7 +315,7 @@ export class HomePage {
     }
     this.currentBet = "";
     this.smallestAction = "Check";
-    this.currentHandStage = this.handStages[next];
+    this.changeHandStage();
   }
 
   
@@ -316,13 +337,20 @@ export class HomePage {
      
     });
     if(activePlayers.length === betGood.length) {
-      if(this.currentHandStage === "Pre-Flop" && x === this.bigBlind) {
+      if(this.currentHandStage === "Pre-Flop" && (x === this.bigBlind && this.currentAction === this.BBPlayer)) {
         this.checkBigBlind();
+      } else if (this.currentHandStage === "Pre-Flop" && x === this.bigBlind) {
+        this.checkSmallBlind();
       } else {
         this.nextBettingRound();
       }
     }
   };
+
+  changeHandStage() {
+    let next = this.handStages.indexOf(this.currentHandStage) + 1;
+    this.currentHandStage = this.handStages[next];
+  }
 
   // Player tracking functions
 
@@ -333,6 +361,31 @@ export class HomePage {
       this.addPlayerName(playerPosition);
     }
     
+  }
+
+  establishBBPlayer() {
+    let cd = this.currentDealer;
+    let cdi = this.players.indexOf(cd);
+    if(this.players.length > cdi + 2) {
+      let BB = cdi + 2;
+      this.BBPlayer = this.players[BB];
+    } else if(this.players.length - 2 === cdi ) {
+        this.BBPlayer = this.players[0];
+    } else this.BBPlayer = this.players[1];
+    console.log('bb player', this.BBPlayer); //@DEBUG
+  }
+
+  establishSBPlayer() {
+    let cd = this.currentDealer;
+    let cdi = this.players.indexOf(cd);
+    if(this.players.length > cdi + 1) {
+      let SB = cdi + 1;
+      this.SBPlayer = this.players[SB];
+      console.log('sb if', this.SBPlayer); //@DEBUG
+    } else if(this.players.length - 1 === cdi ) {
+        this.SBPlayer = this.players[0];
+        console.log('sb else if',this.SBPlayer ); //@DEBUG
+    } else this.BBPlayer = this.players[1];
   }
 
 
@@ -500,9 +553,9 @@ export class HomePage {
           text: 'Confirm Blinds',
           handler: data => {
             if(data.smallBlind !== "" && data.bigBlind !== "") {
-            this.newHand();
             this.smallBlind = data.smallBlind;
             this.bigBlind = data.bigBlind;
+            this.newHand();
             this.blindsToPot();
             this.currentBet = this.bigBlind;
             } else {
@@ -559,6 +612,29 @@ export class HomePage {
           text: 'Check',
           handler: () => {
             this.nextBettingRound();
+          }
+        },
+        {
+          text: 'Bet',
+          role: 'cancel',
+          handler: () => {;
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  checkSmallBlind() {
+    let alert = this.alertCtrl.create({
+      title: 'Option',
+      message: 'Small Blind can check or bet',
+      buttons: [
+        {
+          text: 'Check',
+          handler: () => {
+            this.nextAction();
+            this.checkBigBlind();
           }
         },
         {
