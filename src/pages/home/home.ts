@@ -19,6 +19,7 @@ export class HomePage {
   
   smallBlind: string = ".25";
   bigBlind: string = ".50";
+  savedBB: string = ".50"
   pot: string = "0";
   potBetAmount: string = "0";
   currentBet: string = this.bigBlind;
@@ -186,6 +187,7 @@ export class HomePage {
 
   newHand() {
     this.pot = "0";
+    this.bigBlind = this.savedBB;
     this.currentBet = this.bigBlind;
     this.primaryNumber = "0";
     this.potBetAmount = "0";
@@ -498,16 +500,12 @@ export class HomePage {
             this.removePlayer(playerPosition);
           }
         },
-        {
-          text: 'Move Dealer',
+        { 
+          text: 'Straddle',
           handler: () => {
-            this.currentDealer = this[playerPosition];
-          }
-        },
-        {
-          text: 'Move Action',
-          handler: () => {
-            this.currentAction = this[playerPosition];
+            if(this.currentHandStage === "Pre-Flop") {
+              this.straddleAlert(playerPosition);
+            } 
           }
         },
         {
@@ -555,6 +553,7 @@ export class HomePage {
             if(data.smallBlind !== "" && data.bigBlind !== "") {
             this.smallBlind = data.smallBlind;
             this.bigBlind = data.bigBlind;
+            this.savedBB = data.bigBlind;
             this.newHand();
             this.blindsToPot();
             this.currentBet = this.bigBlind;
@@ -606,7 +605,7 @@ export class HomePage {
   checkBigBlind() {
     let alert = this.alertCtrl.create({
       title: 'Option',
-      message: 'Big Blind can check or bet',
+      message: 'check or bet?',
       buttons: [
         {
           text: 'Check',
@@ -628,7 +627,7 @@ export class HomePage {
   checkSmallBlind() {
     let alert = this.alertCtrl.create({
       title: 'Option',
-      message: 'Small Blind can check or bet',
+      message: 'check or bet?',
       buttons: [
         {
           text: 'Check',
@@ -728,6 +727,48 @@ export class HomePage {
           handler: data => {
             this.splitFactor = data.splitFactor;
             this.navCtrl.push(SplitPage, {smallBlind: this.smallBlind, pot: this.pot, splitFactor: this.splitFactor})
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  straddleAlert(playerName) {
+    let alert = this.alertCtrl.create({
+      title: 'Straddle Bet?',
+      inputs: [
+        {
+          name: 'straddleAmount',
+          placeholder: 'total straddle amount'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            let x = Number(this.pot);
+            let y = 0;
+            let spi = this.players.indexOf(this[playerName])
+            if(spi === this.players.length - 1) {
+              this.currentAction = this.players[0];
+            } else {
+              let nca = spi + 1;
+              this.currentAction = this.players[nca];
+            }
+            this.BBPlayer = this[playerName];
+            this.currentBet = data.straddleAmount;
+            this.bigBlind = data.straddleAmount;
+            this[playerName].bet = data.straddleAmount;
+            y = Number(data.straddleAmount) + x;
+            this.pot = y.toString();
           }
         }
       ]
