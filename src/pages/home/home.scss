@@ -10,8 +10,8 @@ page-home {
     }
 
     .playerTracker {
-        max-width: 100px!important;
-        min-width: 100px!important;
+        max-width: 80px!important;
+        min-width: 80px!important;
       }
 
       .trackerGrid {
@@ -28,11 +28,12 @@ page-home {
     }
 
     .dealer {
-        border: solid black 4px !important;
+        border: dashed grey 4px !important;
     }
 
     .actionOn {
         background-color: #33825e !important;
+        border: solid black 4px !important;
     }
 
     .inactive {
