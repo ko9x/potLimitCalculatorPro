@@ -14,5 +14,14 @@
     * the logic needs to know once a round of betting (such as the flop) is over and reset the correct properties etc...
 
 # Things to do  
-* Merge the sean and master branches once I am at a good spot and I am confident I can merge them correctly
+* Currently if there are 2 open spots in the middle of the table, the one closer to the top must be filled.
+    * otherwise the tracking breaks.
+    * this could be fixed by having all the players in the players array at all times
+    * and creating a new property of the player object 
+        * instead of status = active or inactive
+            * atTable = true or false 
+            * inHand = true or false
+    * this would require another array to be created because currently the dealer follows the players array
+        * the dealer would now need to follow the atTable array
+        * the action would follow the inHand array
 * And probably a bunch more that I am forgetting at the moment
