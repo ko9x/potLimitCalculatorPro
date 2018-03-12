@@ -485,7 +485,6 @@ export class HomePage {
   addPlayer(playerPosition) {
     let pn = this[playerPosition].title.substr(this[playerPosition].title.length - 1);
     let pi = this[playerPosition].title.substr(this[playerPosition].title.length - 1) - 1;
-    let p = this.players.indexOf(this[playerPosition]);
     let alert = this.alertCtrl.create({
       enableBackdropDismiss: false,
       title: 'enter name',
