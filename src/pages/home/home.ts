@@ -258,18 +258,28 @@ export class HomePage {
       if(this.currentHandStage === "Pre-Flop" && (ca === SBP && y === bb)) {
         this.potBetAmount = this.pot
         this.potBetConfirm();
-        console.log('sb and bb the same', ); //@DEBUG
-      }
+        console.log('if', ); //@DEBUG
+      }else if(this.currentHandStage === "Pre-Flop" && (ca === BBP && y === bb)) {
+        this.potBetAmount = this.pot;
+        this.potBetConfirm();
+        console.log('else if', ); //@DEBUG
+     } else {
+     z = (Number(y) * 2) + Number(x);
+     this.potBetAmount = z.toString();
+     this.potBetConfirm();
+     console.log('else', ); //@DEBUG
+     }
     } else if(this.currentHandStage === "Pre-Flop" && (ca === BBP && y === bb)) {
        this.potBetAmount = this.pot;
        this.potBetConfirm();
-       console.log('bb made unraised pot bet', ); //@DEBUG
+       console.log('else if', ); //@DEBUG
     } else {
     z = (Number(y) * 2) + Number(x);
     this.potBetAmount = z.toString();
     this.potBetConfirm();
-    console.log('i ran', ); //@DEBUG
+    console.log('else', ); //@DEBUG
     }
+    console.log('nothing ran', ); //@DEBUG
   }
 
   clearBets() {
@@ -360,7 +370,7 @@ export class HomePage {
     if(this.players.indexOf(this[playerPosition]) > -1){
       this.playerOptions(playerPosition);
     } else {
-      this.addPlayerName(playerPosition);
+      this.addPlayer(playerPosition);
     }
     
   }
@@ -374,7 +384,6 @@ export class HomePage {
     } else if(this.players.length - 2 === cdi ) {
         this.BBPlayer = this.players[0];
     } else this.BBPlayer = this.players[1];
-    console.log('bb player', this.BBPlayer); //@DEBUG
   }
 
   establishSBPlayer() {
@@ -383,10 +392,8 @@ export class HomePage {
     if(this.players.length > cdi + 1) {
       let SB = cdi + 1;
       this.SBPlayer = this.players[SB];
-      console.log('sb if', this.SBPlayer); //@DEBUG
     } else if(this.players.length - 1 === cdi ) {
         this.SBPlayer = this.players[0];
-        console.log('sb else if',this.SBPlayer ); //@DEBUG
     } else this.BBPlayer = this.players[1];
   }
 
@@ -442,16 +449,45 @@ export class HomePage {
 
   // Alerts
 
-  addPlayerName(playerPosition) {
+  changePlayerName(playerPosition) {
     let p = this.players.indexOf(this[playerPosition]);
-    let ap = this.activePlayers.indexOf(this[playerPosition]);
-    if(this.players.indexOf(this[playerPosition]) > -1) {
-      this.players.splice(p,1);
-    if(this.activePlayers.indexOf(this[playerPosition]) > -1) {
-      this.activePlayers.splice(ap,1);
-    }
-    }
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
+      title: 'Enter Name',
+      message: "keep it short",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'enter name',
+          type: 'text'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            this[playerPosition].name = data.name;
+            this.players.splice(p,1,this[playerPosition]);
+            this.newHand();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  addPlayer(playerPosition) {
+    let pn = this[playerPosition].title.substr(this[playerPosition].title.length - 1);
+    let pi = this[playerPosition].title.substr(this[playerPosition].title.length - 1) - 1;
+    let p = this.players.indexOf(this[playerPosition]);
+    let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'enter name',
       message: 'keep it short',
       inputs: [
@@ -471,33 +507,41 @@ export class HomePage {
         {
           text: 'Confirm',
           handler: data => {
-            this.players.push(this[playerPosition]);
+            if(this.players.length > pn) {
+              console.log('i happened', ); //@DEBUG
+              this.players.splice(pi,0,this[playerPosition])
+            } else {
+              this.players.push(this[playerPosition]);
+            }
             this[playerPosition].name = data.playerName;
             this[playerPosition].status = "active";
-            this.activePlayers.push(this[playerPosition]);
             this.newHand();
           }
         }
       ]
     });
     alert.present();
+    console.log('players array', this.players); //@DEBUG
+    console.log('pi', pi); //@DEBUG
   }
 
   playerOptions(playerPosition) {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Edit Player',
       message: 'What would you like to do?',
       buttons: [
         {
           text: 'Change Name',
           handler: () => {
-            this.addPlayerName(playerPosition);
+            this.changePlayerName(playerPosition);
           }
         },
         {
           text: 'Remove Player',
           handler: () => {
             this.removePlayer(playerPosition);
+            this.newHand();
           }
         },
         { 
@@ -573,6 +617,7 @@ export class HomePage {
 
   potBetConfirm() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: "The pot bet amount is currently", 
       message: this.potBetAmount,
       buttons: [
@@ -604,6 +649,7 @@ export class HomePage {
 
   checkBigBlind() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Option',
       message: 'check or bet?',
       buttons: [
@@ -626,6 +672,7 @@ export class HomePage {
 
   checkSmallBlind() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Option',
       message: 'check or bet?',
       buttons: [
@@ -649,6 +696,7 @@ export class HomePage {
 
   changeCurrentBet() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Change Current Bet',
       message: 'this amount will not be added to the pot',
       inputs: [
@@ -679,6 +727,7 @@ export class HomePage {
 
   isQualifyingLow(smallBlind, pot) {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Is there a qualifying low?',
       buttons: [
         {
@@ -706,6 +755,7 @@ export class HomePage {
 
   regularSplit() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'How Many Players Are Splitting The Pot?',
       inputs: [
         {
@@ -736,6 +786,7 @@ export class HomePage {
 
   straddleAlert(playerName) {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Straddle Bet?',
       inputs: [
         {
