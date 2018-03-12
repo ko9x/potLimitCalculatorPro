@@ -81,12 +81,12 @@
       <ion-row nowrap>
         <span col-6 class="bottomDisplay" (click)="nextBettingRound()">
           <p text-center class="bottomDisplayText">current bet</p>
-          <p id="primaryNumber">${{currentBet}}</p>
+          <p class="bottomDisplayAmount">${{currentBet}}</p>
           <p text-center class="secondaryDisplayText">tap to change</p>
         </span>
         <span col-6 class="bottomDisplay" (click)="isQualifyingLow(smallBlind, pot)">
           <p text-center class="bottomDisplayText">in the pot</p>
-          <p id="primaryNumber">${{pot}}</p>
+          <p class="bottomDisplayAmount">${{pot}}</p>
           <p text-center class="secondaryDisplayText">tap to split</p>
         </span>
       </ion-row>
