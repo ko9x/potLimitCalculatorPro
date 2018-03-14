@@ -790,7 +790,8 @@ export class HomePage {
       inputs: [
         {
           name: 'straddleAmount',
-          placeholder: 'total straddle amount'
+          placeholder: 'total straddle amount',
+          type: 'number'
         }
       ],
       buttons: [
