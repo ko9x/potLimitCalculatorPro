@@ -17,8 +17,8 @@
     </ion-card-header>
     <ion-card-content text-center class="contentText">
       Each Player Gets ${{splitAmount}} 
-      <span *ngIf="extraChips == 1">There is ({{extraChips}}) ${{smallBlind}} chip remaining</span>
-      <span *ngIf="extraChips > 1">There are ({{extraChips}}) ${{smallBlind}} chips remaining</span>
+      <span *ngIf="extraChips == 1">There is ({{extraChips}}) ${{denomination}} chip remaining</span>
+      <span *ngIf="extraChips > 1">There are ({{extraChips}}) ${{denomination}} chips remaining</span>
       <p *ngIf="extraChips == 1" class="secondaryContent">generally the player closest to the button gets the extra chip</p>
       <p *ngIf="extraChips > 1" class="secondaryContent">generally the players closest to the button get the extra chips</p>
     </ion-card-content>
