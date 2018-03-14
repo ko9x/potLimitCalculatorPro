@@ -161,10 +161,7 @@ export class HomePage {
     var x = this.primaryNumber;
     var y = this.pot;
     var z = 0;
-    console.log('pot bet amount', this.potBetAmount); //@DEBUG
     if(Number(x) > Number(p)) {
-      console.log('primary number', x); //@DEBUG
-      console.log('pot bet amount', p); //@DEBUG
       this.potBetConfirm();
     } else {
     if(x != "") {
@@ -603,6 +600,8 @@ export class HomePage {
           handler: () => {
             if(this.currentHandStage === "Pre-Flop") {
               this.straddleAlert(playerPosition);
+            } else {
+              this.invalidStraddleAlert();
             } 
           }
         },
@@ -864,6 +863,15 @@ export class HomePage {
     let alert = this.alertCtrl.create({
       title: 'One or more fields was invalid',
       subTitle: 'please fill out all fields correctly',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  invalidStraddleAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Invalid Request',
+      subTitle: 'you can only straddle pre-flop',
       buttons: ['Dismiss']
     });
     alert.present();
