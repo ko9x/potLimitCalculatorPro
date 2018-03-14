@@ -11,20 +11,19 @@ export class HLSplitPage extends ParentComponent {
   highPot: string = "0";
   lowPot: string = "0";
   pot: string;
-  smallBlind: string;
+  denomination: string;
   splitFactor: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform, public alertCtrl: AlertController) {
-    // If we navigated to this page, we will have an item available as a nav param
     super(platform, alertCtrl);
     this.pot = navParams.get('pot');
-    this.smallBlind = navParams.get('smallBlind');
+    this.denomination = navParams.get('denomination');
     this.highLowSplit();
 
   }
 
   highLowSplit() {
-    var denomination = Number(this.smallBlind);
+    var denomination = Number(this.denomination);
     var players = 2;
     var potTotal = Number(this.pot);
 
@@ -47,11 +46,6 @@ export class HLSplitPage extends ParentComponent {
 
     this.highPot = ( playerPortions[playerName] ) + potTotal;
     this.lowPot = ( playerPortions[playerName] )
-    
-    console.log('remaining pot: ' + potTotal );
-    console.log('remaining pot: ' + potTotal / denomination + "  Chips remaining");
-    console.log('high pot', this.highPot); //@DEBUG
-    console.log('low pot', this.lowPot); //@DEBUG
   }
 
   
@@ -71,14 +65,13 @@ export class HLSplitPage extends ParentComponent {
           text: 'Cancel',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Confirm',
           handler: data => {
             this.splitFactor = data.splitFactor;
-            this.navCtrl.push(SplitPage, {smallBlind: this.smallBlind, pot: this.highPot, splitFactor: this.splitFactor})
+            this.navCtrl.push(SplitPage, {denomination: this.denomination, pot: this.highPot, splitFactor: this.splitFactor})
           }
         }
       ]
@@ -101,14 +94,13 @@ export class HLSplitPage extends ParentComponent {
           text: 'Cancel',
           role: 'cancel',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Confirm',
           handler: data => {
             this.splitFactor = data.splitFactor;
-            this.navCtrl.push(SplitPage, {smallBlind: this.smallBlind, pot: this.lowPot, splitFactor: this.splitFactor})
+            this.navCtrl.push(SplitPage, {denomination: this.denomination, pot: this.lowPot, splitFactor: this.splitFactor})
           }
         }
       ]
